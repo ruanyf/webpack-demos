@@ -72,7 +72,7 @@ There are some command line options you should know.
 1. JSX-loader
 1. CSS-loader
 1. Image loader
-1. Separate CSS file plugin
+1. UglifyJs Plugin
 
 ## Demo01: Entry file ([source](demo01))
 
@@ -154,7 +154,7 @@ index.html
 
 ## Demo03: JSX-loader ([source](demo03))
 
-Loaders are preprocessors which transform a resource file of your app. For example, JSX-loader can transform JSX file into JS file.
+Loaders are preprocessors which transform a resource file of your app. For example, [JSX-loader](https://www.npmjs.com/package/jsx-loader) can transform JSX file into JS file.
 
 main.jsx
 
@@ -193,7 +193,7 @@ module.exports = {
 };
 ```
 
-`module.loaders` is used to assign which loader to load.
+In `webpack.config.js`, `module.loaders` is used to assign loaders.
 
 ## Demo04: CSS-loader ([source](demo04))
 
@@ -242,7 +242,7 @@ module.exports = {
 };
 ```
 
-Attention, you have to use two loaders to transform CSS file. First is CSS-loader to read CSS file, and another is Style-loader to insert Style tag into HTML page. Different loaders are linked by exclamation mark(!).
+Attention, you have to use two loaders to transform CSS file. First is [CSS-loader](https://www.npmjs.com/package/css-loader) to read CSS file, and another is [Style-loader](https://www.npmjs.com/package/style-loader) to insert Style tag into HTML page. Different loaders are linked by exclamation mark(!).
 
 After launching the server, `index.html` will have inline style.
 
@@ -257,9 +257,7 @@ After launching the server, `index.html` will have inline style.
 </head>
 ```
 
-Demo06 will show you how to transform CSS file into a separate file.
-
-## Demo05: Image loader
+## Demo05: Image loader ([source](tree/master/demo05))
 
 Webpack could also require images in JS files.
 
@@ -301,7 +299,7 @@ module.exports = {
 };
 ```
 
-`url-loader` transforms image files. If the image size is bigger than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL.
+[`url-loader`](https://www.npmjs.com/package/url-loader) transforms image files. If the image size is bigger than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL. As you see, question mark(?) is be used to pass parameters into loaders.
 
 After launching the server, `small.png` and `big.png` will have the following URLs.
 
@@ -310,7 +308,53 @@ After launching the server, `small.png` and `big.png` will have the following UR
 <img src="4853ca667a2b8b8844eb2693ac1b2578.png">
 ```
 
-## Demo06: Separate CSS file plugin
+## Demo06: UglifyJs Plugin (source)
+
+Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) will minify JS codes.
+
+main.js
+
+```javascript
+var longVariableName = 'Hello';
+longVariableName += ' World';
+document.write('<h1>' + longVariableName + '</h1>');
+```
+
+index.html
+
+```html
+<html>
+<body>
+  <script src="bundle.js"></script>
+</boby>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+var webpack = require('webpack');
+var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new uglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]
+};
+```
+
+After launching the server, the `main.js` will be minified into following.
+
+```javascript
+var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
+```
 
 ## License
 
