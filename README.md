@@ -308,7 +308,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 <img src="4853ca667a2b8b8844eb2693ac1b2578.png">
 ```
 
-## Demo06: UglifyJs Plugin (https://github.com/ruanyf/webpack-demos/tree/master/demo06)
+## Demo06: UglifyJs Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo06))
 
 Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) will minify JS codes.
 
