@@ -20,8 +20,6 @@ $ npm install
 
 Now, play with the source files under the repo's demo* directories.
 
-You can use `webpack-dev-server` to launch a living server to view the demo's result.
-
 ```bash
 $ cd demo01
 $ webpack-dev-server
