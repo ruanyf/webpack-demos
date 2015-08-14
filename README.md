@@ -4,7 +4,7 @@ These demos are purposely written in a simple and clear style. You will find no 
 
 ## How to use
 
-First, install Webpack and [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) globally.
+First, install [Webpack](https://www.npmjs.com/package/webpack) and [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) globally.
 
 ```bash
 $ npm i -g webpack webpack-dev-server
