@@ -37,9 +37,7 @@ It can be used as a module bundler similar to Browserify, and do [much more](htt
 
 ```bash
 $ browserify main.js > bundle.js
-
 # be equivalent to
-
 $ webpack main.js bundle.js
 ```
 
@@ -197,7 +195,69 @@ module.exports = {
 
 `module.loaders` is used to assign which loader to load.
 
-## Demo04: CSS-loader
+## Demo04: CSS-loader ([source](demo04))
+
+Webpack allows you to require CSS in JS file, then preprocessed CSS file with CSS-loader.
+
+main.js
+
+```javascript
+require('./app.css');
+```
+
+app.css
+
+```css
+body {
+  background-color: blue;
+}
+```
+
+index.html
+
+```html
+<html>
+  <head>
+    <script type="text/javascript" src="bundle.js"></script>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders:[
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+    ]
+  }
+};
+```
+
+Attention, you have to use two loaders to transform CSS file. First is CSS-loader to read CSS file, and another is Style-loader to insert Style tag into HTML page. Different loaders are linked by exclamation mark(!).
+
+After launching the server, `index.html` will have inline style.
+
+```html
+<head>
+   <script type="text/javascript" src="bundle.js"></script>
+   <style type="text/css">
+     body {
+       background-color: blue;
+     }
+   </style>
+</head>
+```
+
+Demo06 will show you how to transform CSS file into a separate file.
 
 ## License
 
