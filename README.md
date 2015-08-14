@@ -39,7 +39,7 @@ $ browserify main.js > bundle.js
 $ webpack main.js bundle.js
 ```
 
-Its configuration is `webpack.config.js`.
+Its configuration file is `webpack.config.js`.
 
 ```javascript
 // webpack.config.js
@@ -51,13 +51,13 @@ module.exports = {
 };
 ```
 
-Now you can invoke Webpack without any arguments.
+After having `webpack.config.js`, you can invoke Webpack without any arguments.
 
 ```bash
 $ webpack
 ```
 
-There are some command line options you should know.
+Some command-line options you should know.
 
 - `webpack` – for building once for development
 - `webpack -p` – for building once for production (minification)
@@ -76,11 +76,10 @@ There are some command line options you should know.
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
-Entry file is a file which Webpack will read to build bundle.js.
-
-main.js
+Entry file is a file which Webpack will read to build bundle.js. For example, `main.js` is an entry file.
 
 ```javascript
+// main.js
 document.write('<h1>Hello World</h1>');
 ```
 
@@ -97,6 +96,7 @@ index.html
 Webpack follows `webpack.config.js` to build `bundle.js`.
 
 ```javascript
+// webpack.config.js
 module.exports = {
   entry: './main.js',
   output: {
@@ -115,16 +115,23 @@ $ webpack-dev-server
 
 Multiple entry files are allowed.
 
-main1.js
-
 ```javascript
+// main1.js
 document.write('<h1>Hello World</h1>');
+
+// main2.js
+document.write('<h2>Hello Webpack</h2>');
 ```
 
-main2.js
+index.html
 
-```javascript
-document.write('<h2>Hello Webpack</h2>');
+```html
+<html>
+  <body>
+    <script src="bundle1.js"></script>
+    <script src="bundle2.js"></script>
+  </body>
+</html>
 ```
 
 webpack.config.js
@@ -141,22 +148,11 @@ module.exports = {
 };
 ```
 
-index.html
-
-```html
-<html>
-  <body>
-    <script src="bundle1.js"></script>
-    <script src="bundle2.js"></script>
-  </body>
-</html>
-```
-
 ## Demo03: JSX-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
 
 Loaders are preprocessors which transform a resource file of your app. For example, [JSX-loader](https://www.npmjs.com/package/jsx-loader) can transform JSX file into JS file.
 
-main.jsx
+`main.jsx` is a JSX file.
 
 ```javascript
 var React = require('react');
