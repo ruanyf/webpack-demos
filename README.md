@@ -67,14 +67,14 @@ There are some command line options you should know.
 
 ## Index
 
-1. Entry file
-1. Multiple entry files
-1. JSX-loader
-1. CSS-loader
-1. Image loader
-1. UglifyJs Plugin
+1. [Entry file](#demo01-entry-file-source)
+1. [Multiple entry files](#demo02-multiple-entry-files-source)
+1. [JSX-loader](#demo03-jsx-loader-source)
+1. [CSS-loader](#demo04-css-loader-source)
+1. [Image loader](#demo05-image-loader-source)
+1. [UglifyJs Plugin](#demo06-uglifyjs-plugin-source)
 
-## Demo01: Entry file ([source](demo01))
+## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
 Entry file is a file which Webpack will read to build bundle.js.
 
@@ -111,7 +111,7 @@ Launch the server, visit http://127.0.0.1:8080 .
 $ webpack-dev-server
 ```
 
-## Demo02: Multiple entry files ([source](demo02))
+## Demo02: Multiple entry files ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo02))
 
 Multiple entry files are allowed.
 
@@ -152,7 +152,7 @@ index.html
 </html>
 ```
 
-## Demo03: JSX-loader ([source](demo03))
+## Demo03: JSX-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
 
 Loaders are preprocessors which transform a resource file of your app. For example, [JSX-loader](https://www.npmjs.com/package/jsx-loader) can transform JSX file into JS file.
 
@@ -195,7 +195,7 @@ module.exports = {
 
 In `webpack.config.js`, `module.loaders` is used to assign loaders.
 
-## Demo04: CSS-loader ([source](demo04))
+## Demo04: CSS-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo04))
 
 Webpack allows you to require CSS in JS file, then preprocessed CSS file with CSS-loader.
 
@@ -257,7 +257,7 @@ After launching the server, `index.html` will have inline style.
 </head>
 ```
 
-## Demo05: Image loader ([source](tree/master/demo05))
+## Demo05: Image loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo05))
 
 Webpack could also require images in JS files.
 
@@ -308,7 +308,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 <img src="4853ca667a2b8b8844eb2693ac1b2578.png">
 ```
 
-## Demo06: UglifyJs Plugin (source)
+## Demo06: UglifyJs Plugin (https://github.com/ruanyf/webpack-demos/tree/master/demo06)
 
 Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) will minify JS codes.
 
