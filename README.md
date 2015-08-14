@@ -4,10 +4,10 @@ These demos are purposely written in a simple and clear style. You will find no 
 
 ## How to use
 
-First, install Webpack globally.
+First, install Webpack and [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) globally.
 
 ```bash
-$ npm i -g webpack
+$ npm i -g webpack webpack-dev-server
 ```
 
 Then, clone the repo and install the dependencies.
