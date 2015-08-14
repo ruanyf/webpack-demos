@@ -193,7 +193,7 @@ module.exports = {
 };
 ```
 
-In `webpack.config.js`, `module.loaders` is used to assign loaders.
+In `webpack.config.js`, `module.loaders` field is used to assign loaders.
 
 ## Demo04: CSS-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo04))
 
@@ -350,11 +350,19 @@ module.exports = {
 };
 ```
 
-After launching the server, the `main.js` will be minified into following.
+After launching the server, `main.js` will be minified into following.
 
 ```javascript
 var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 ```
+
+## Useful links
+
+- [Webpack docs](http://webpack.github.io/docs/)
+- [webpack-howto](https://github.com/petehunt/webpack-howto), by Pete Hunt
+- [Diving into Webpack](https://web-design-weekly.com/2014/09/24/diving-webpack/), by Web Design Weekly
+- [Webpack and React is awesome](http://www.christianalfoni.com/articles/2014_12_13_Webpack-and-react-is-awesome), by Christian Alfoni Jørgensen
+- [Browserify vs Webpack](https://medium.com/@housecor/browserify-vs-webpack-b3d7ca08a0a9), by Cory House
 
 ## License
 
