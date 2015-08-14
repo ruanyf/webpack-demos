@@ -76,7 +76,9 @@ Some command-line options you should know.
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
-Entry file is a file which Webpack will read to build bundle.js. For example, `main.js` is an entry file.
+Entry file is a file which Webpack will read to build bundle.js.
+
+For example, `main.js` is an entry file.
 
 ```javascript
 // main.js
@@ -295,7 +297,7 @@ module.exports = {
 };
 ```
 
-[`url-loader`](https://www.npmjs.com/package/url-loader) transforms image files. If the image size is bigger than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL. As you see, question mark(?) is be used to pass parameters into loaders.
+[url-loader](https://www.npmjs.com/package/url-loader) transforms image files. If the image size is bigger than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL. As you see, question mark(?) is be used to pass parameters into loaders.
 
 After launching the server, `small.png` and `big.png` will have the following URLs.
 
