@@ -73,6 +73,7 @@ Some command-line options you should know.
 1. [CSS-loader](#demo04-css-loader-source)
 1. [Image loader](#demo05-image-loader-source)
 1. [UglifyJs Plugin](#demo06-uglifyjs-plugin-source)
+1. [Environment flags](#demo07-environment-flags-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -352,6 +353,54 @@ After launching the server, `main.js` will be minified into following.
 
 ```javascript
 var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
+```
+
+## Demo07: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo07))
+
+You can enable some codes only in development environment with environment flags.
+
+main.js
+
+```javascript
+document.write('<h1>Hello World</h1>');
+
+if (__DEV__) {
+  document.write(new Date());
+}
+```
+
+index.html
+
+```html
+<html>
+<body>
+  <script src="bundle.js"></script>
+</body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+var webpack = require('webpack');
+
+var devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+});
+
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [devFlagPlugin]
+};
+```
+
+Now pass environment variable into webpack.
+
+```bash
+$ env DEBUG=true webpack-dev-server
 ```
 
 ## Useful links
