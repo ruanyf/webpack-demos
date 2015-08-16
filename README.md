@@ -75,6 +75,7 @@ Some command-line options you should know.
 1. [UglifyJs Plugin](#demo06-uglifyjs-plugin-source)
 1. [Environment flags](#demo07-environment-flags-source)
 1. [Common chunk](#demo08-common-chunk-source)
+1. [Vendor chunk](#demo09-vendor-chunk-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -460,6 +461,48 @@ module.exports = {
     new CommonsChunkPlugin('init.js')
   ]
 }
+```
+
+## Demo09: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
+
+You can also extract the vendor libraries from a script into a separate file with CommonsChunkPlugin.
+
+main.js
+
+```javascript
+var $ = require('jquery');
+$('h1').text('Hello World');
+```
+
+index.html
+
+```html
+<html>
+  <body>
+    <h1></h1>
+    <script src="vendor.js"></script>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+var webpack = require('webpack');
+
+module.exports = {
+  entry: {
+    app: './main.js',
+    vendor: ['jquery'],
+  },
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.js')
+  ]
+};
 ```
 
 ## Useful links

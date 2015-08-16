@@ -17,7 +17,8 @@
     "css-loader": "~0.16.0",
     "file-loader": "~0.8.4",
     "style-loader": "~0.12.3",
-    "url-loader": "~0.5.6"
+    "url-loader": "~0.5.6",
+    "jquery": "~2.1.4"
   },
   "repository": "ruanyf/webpack-demos"
 }
