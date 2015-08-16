@@ -27,7 +27,7 @@ $ webpack-dev-server
 
 Visit http://127.0.0.1:8080 with your browser.
 
-## What is Webpack
+## Foreword: What is Webpack
 
 Webpack is a front-end build systems like Grunt and Gulp.
 
@@ -64,6 +64,19 @@ Some command-line options you should know.
 - `webpack --watch` – for continuous incremental build
 - `webpack -d` – to include source maps
 - `webpack --colors` – for making things pretty
+
+To produce a production ready application, you could write `scripts` field in your package.json file as following.
+
+```javascript
+{
+  // ...
+  "scripts": {
+    "dev": "webpack-dev-server --devtool eval --progress --colors",
+    "deploy": "NODE_ENV=production webpack -p"
+  },
+  // ...
+}
+```
 
 ## Index
 
