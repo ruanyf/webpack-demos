@@ -74,6 +74,7 @@ Some command-line options you should know.
 1. [Image loader](#demo05-image-loader-source)
 1. [UglifyJs Plugin](#demo06-uglifyjs-plugin-source)
 1. [Environment flags](#demo07-environment-flags-source)
+1. [Common chunk](#demo08-common-chunk-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -116,7 +117,7 @@ $ webpack-dev-server
 
 ## Demo02: Multiple entry files ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo02))
 
-Multiple entry files are allowed.
+Multiple entry files are allowed. It is useful for a multi-page app.
 
 ```javascript
 // main1.js
@@ -401,6 +402,64 @@ Now pass environment variable into webpack.
 
 ```bash
 $ env DEBUG=true webpack-dev-server
+```
+
+## Demo08: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
+
+When multi scripts have common chunks, you can extract the common part into a separate file with CommonsChunkPlugin.
+
+```javascript
+// main1.jsx
+var React = require('react');
+React.render(
+  <h1>Hello World</h1>,
+  document.getElementById('a')
+);
+
+// main2.jsx
+var React = require('react');
+React.render(
+  <h2>Hello Webpack</h2>,
+  document.getElementById('b')
+);
+```
+
+index.html
+
+```html
+
+<html>
+  <body>
+    <div id="a"></div>
+    <div id="b"></div>
+    <script src="init.js"></script>
+    <script src="bundle1.js"></script>
+    <script src="bundle2.js"></script>
+  </body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+module.exports = {
+  entry: {
+    bundle1: './main1.jsx',
+    bundle2: './main2.jsx'
+  },
+  output: {
+    filename: '[name].js'
+  },
+  module: {
+    loaders:[
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+    ]
+  },
+  plugins: [
+    new CommonsChunkPlugin('init.js')
+  ]
+}
 ```
 
 ## Useful links
