@@ -77,6 +77,7 @@ Some command-line options you should know.
 1. [Common chunk](#demo08-common-chunk-source)
 1. [Vendor chunk](#demo09-vendor-chunk-source)
 1. [React hot loader](#demo10-react-hot-loader-source)
+1. [React router](#demo11-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -588,6 +589,38 @@ module.exports = {
     }]
   }
 };
+```
+
+## Demo11: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+
+This demo uses webpack to build [React-router](https://github.com/rackt/react-router/blob/0.13.x/docs/guides/overview.md)'s official example.
+
+Let's imagine a little app with a dashboard, inbox, and calendar.
+
+```
++---------------------------------------------------------+
+| +---------+ +-------+ +--------+                        |
+| |Dashboard| | Inbox | |Calendar|      Logged in as Jane |
+| +---------+ +-------+ +--------+                        |
++---------------------------------------------------------+
+|                                                         |
+|                        Dashboard                        |
+|                                                         |
+|                                                         |
+|   +---------------------+    +----------------------+   |
+|   |                     |    |                      |   |
+|   | +              +    |    +--------->            |   |
+|   | |              |    |    |                      |   |
+|   | |   +          |    |    +------------->        |   |
+|   | |   |    +     |    |    |                      |   |
+|   | |   |    |     |    |    |                      |   |
+|   +-+---+----+-----+----+    +----------------------+   |
+|                                                         |
++---------------------------------------------------------+
+```
+
+```bash
+$ webpack-dev-server
 ```
 
 ## Useful links
