@@ -4,21 +4,24 @@
   "description": "a collection of simple demos of Webpack",
   "main": "index.js",
   "keywords": [
-    "webpack",
+    "build",
     "demo",
-    "build"
+    "webpack"
   ],
   "author": "Ruan Yifeng",
   "license": "MIT",
   "dependencies": {
-    "jsx-loader": "~0.13.2",
-    "react": "~0.13.3",
-    "webpack": "~1.11.0",
+    "babel-loader": "^5.3.2",
     "css-loader": "~0.16.0",
     "file-loader": "~0.8.4",
+    "jquery": "~2.1.4",
+    "jsx-loader": "~0.13.2",
+    "react": "~0.13.3",
+    "react-hot-loader": "^1.2.8",
     "style-loader": "~0.12.3",
     "url-loader": "~0.5.6",
-    "jquery": "~2.1.4"
+    "webpack": "~1.11.0",
+    "webpack-dev-server": "^1.10.1"
   },
   "repository": "ruanyf/webpack-demos"
 }

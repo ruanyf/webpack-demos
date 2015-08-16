@@ -76,6 +76,7 @@ Some command-line options you should know.
 1. [Environment flags](#demo07-environment-flags-source)
 1. [Common chunk](#demo08-common-chunk-source)
 1. [Vendor chunk](#demo09-vendor-chunk-source)
+1. [React hot loader](#demo10-react-hot-loader-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -502,6 +503,88 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.js')
   ]
+};
+```
+
+## Demo10: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+
+[React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components. I copied this demo from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
+
+Because we use global `webpack-dev-server`, to run this demo, you have to install some modules globally as well.
+
+```bash
+$ npm i -g react-hot-loader react babel-loader
+```
+
+Then run `webpack-dev-server`.
+
+```bash
+$ webpack-dev-server --progress
+```
+
+Now you should see 'Hello World' in your browser. Don't close the server, and open a new terminal to edit `App.js`. Modify 'Hello World' into 'Hello Webpack' and save it. See what happened in the browser.
+
+App.js
+
+```javascript
+import React, { Component } from 'react';
+
+export default class App extends Component {
+  render() {
+    return (
+      <h1>Hello World</h1>
+    );
+  }
+}
+```
+
+index.js
+
+```javascript
+import React from 'react';
+import App from './App';
+
+React.render(<App />, document.getElementById('root'));
+```
+
+index.html
+
+```html
+<html>
+  <body>
+    <div id='root'></div>
+    <script src="/static/bundle.js"></script>
+  </body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+var webpack = require('webpack');
+var path = require('path');
+
+module.exports = {
+  entry: [
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    './index.js'
+  ],
+  output: {
+    filename: 'bundle.js',
+    publicPath: '/static/'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['react-hot-loader', 'babel-loader'],
+      include: path.join(__dirname, '.')
+    }]
+  }
 };
 ```
 
