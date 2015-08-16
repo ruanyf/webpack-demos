@@ -538,7 +538,7 @@ module.exports = {
 
 [React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components. I copied this demo from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
 
-Because we use global `webpack-dev-server`, to run this demo, you have to install some modules globally as well.
+Because we use global `webpack-dev-server`, you have to install some modules globally as well to run this demo.
 
 ```bash
 $ npm i -g react-hot-loader react babel-loader
