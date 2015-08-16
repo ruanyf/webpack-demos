@@ -507,6 +507,33 @@ module.exports = {
 };
 ```
 
+If you want a module available as variable in every module, such as making $ and jQuery available in every module without writing `require("jquery")`. You should use `ProvidePlugin` ([Official doc](http://webpack.github.io/docs/shimming-modules.html)).
+
+```javascript
+// main.js
+$('h1').text('Hello World');
+
+
+// webpack.config.js
+var webpack = require('webpack');
+
+module.exports = {
+  entry: {
+    app: './main.js'
+  },
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    })
+  ]
+};
+```
+
 ## Demo10: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
 
 [React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components. I copied this demo from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
