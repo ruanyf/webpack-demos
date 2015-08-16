@@ -519,10 +519,12 @@ $ npm i -g react-hot-loader react babel-loader
 Then run `webpack-dev-server`.
 
 ```bash
-$ webpack-dev-server --progress
+$ webpack-dev-server --progress --hot
 ```
 
-Now you should see 'Hello World' in your browser. Don't close the server, and open a new terminal to edit `App.js`. Modify 'Hello World' into 'Hello Webpack' and save it. See what happened in the browser.
+Now you should see 'Hello World' in your browser. `--hot` option tells `webpack-dev-server` to replace a component without a full page reload when the component source changed.
+
+Don't close the server. Open a new terminal to edit `App.js`, and modify 'Hello World' into 'Hello Webpack'. Save it, and see what happened in the browser.
 
 App.js
 
