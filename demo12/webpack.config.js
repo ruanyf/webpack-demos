@@ -1,17 +1,12 @@
 module.exports = {
-  entry: './main.jsx',
+  entry: './index.js',
   output: {
     filename: 'bundle.js'
   },
   module: {
     loaders:[
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
     ]
-  },
-  externals: {
-    // require("jquery") is external and available
-    //  on the global var jQuery
-    //  "jquery": "jQuery"
-    'data': 'data'
   }
 };

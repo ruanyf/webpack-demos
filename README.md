@@ -68,6 +68,7 @@ Some command-line options you should know.
 To produce a production ready application, you could write `scripts` field in your package.json file as following.
 
 ```javascript
+// package.json
 {
   // ...
   "scripts": {
@@ -89,8 +90,9 @@ To produce a production ready application, you could write `scripts` field in yo
 1. [Environment flags](#demo07-environment-flags-source)
 1. [Common chunk](#demo08-common-chunk-source)
 1. [Vendor chunk](#demo09-vendor-chunk-source)
-1. [React hot loader](#demo10-react-hot-loader-source)
-1. [React router](#demo11-react-router-source)
+1. [Exposing Global Variables](#demo10-exposing-global-variables-source)
+1. [React hot loader](#demo11-react-hot-loader-source)
+1. [React router](#demo12-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -547,9 +549,56 @@ module.exports = {
 };
 ```
 
-## Demo10: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+## Demo10: Exposing global variables([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
 
-[React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components. I copied this demo from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
+If you want to use some global variables, and don't want to includes them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](http://webpack.github.io/docs/library-and-externals.html)).
+
+For example, we have a `data.js`.
+
+```javascript
+var data = 'Hello World';
+```
+
+We can expose `data` as a global variable.
+
+```javascript
+// webpack.config.js
+module.exports = {
+  entry: './main.jsx',
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders:[
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+    ]
+  },
+  externals: {
+    // require('data') is external and available
+    //  on the global var data
+    'data': 'data'
+  }
+};
+```
+
+Now, you require `data` as a module variable in your script. but it actually is a global variable.
+
+```javascript
+// main.jsx
+var data = require('data');
+var React = require('react');
+
+React.render(
+  <h1>{data}</h1>,
+  document.body
+);
+```
+
+## Demo11: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+
+This demo is copied from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
+
+[React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components.
 
 Because we use global `webpack-dev-server`, you have to install some modules globally as well to run this demo.
 
@@ -631,7 +680,7 @@ module.exports = {
 };
 ```
 
-## Demo11: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+## Demo12: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
 This demo uses webpack to build [React-router](https://github.com/rackt/react-router/blob/0.13.x/docs/guides/overview.md)'s official example.
 
