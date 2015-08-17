@@ -549,7 +549,7 @@ module.exports = {
 };
 ```
 
-## Demo10: Exposing global variables([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+## Demo10: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
 
 If you want to use some global variables, and don't want to includes them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](http://webpack.github.io/docs/library-and-externals.html)).
 
