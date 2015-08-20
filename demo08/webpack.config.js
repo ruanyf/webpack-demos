@@ -1,18 +1,13 @@
-var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var webpack = require('webpack');
+
+var devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+});
+
 module.exports = {
-  entry: {
-    bundle1: './main1.jsx',
-    bundle2: './main2.jsx'
-  },
+  entry: './main.js',
   output: {
-    filename: '[name].js'
+    filename: 'bundle.js'
   },
-  module: {
-    loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
-    ]
-  },
-  plugins: [
-    new CommonsChunkPlugin('init.js')
-  ]
-}
+  plugins: [devFlagPlugin]
+};

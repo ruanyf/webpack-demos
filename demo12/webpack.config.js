@@ -1,12 +1,25 @@
+var webpack = require('webpack');
+var path = require('path');
+
 module.exports = {
-  entry: './index.js',
+  entry: [
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    './index.js'
+  ],
   output: {
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
   module: {
-    loaders:[
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
-    ]
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['react-hot-loader', 'babel-loader'],
+      include: path.join(__dirname, '.')
+    }]
   }
 };

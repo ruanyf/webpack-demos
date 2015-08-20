@@ -86,13 +86,14 @@ To produce a production ready application, you could write `scripts` field in yo
 1. [JSX-loader](#demo03-jsx-loader-source)
 1. [CSS-loader](#demo04-css-loader-source)
 1. [Image loader](#demo05-image-loader-source)
-1. [UglifyJs Plugin](#demo06-uglifyjs-plugin-source)
-1. [Environment flags](#demo07-environment-flags-source)
-1. [Common chunk](#demo08-common-chunk-source)
-1. [Vendor chunk](#demo09-vendor-chunk-source)
-1. [Exposing Global Variables](#demo10-exposing-global-variables-source)
-1. [React hot loader](#demo11-react-hot-loader-source)
-1. [React router](#demo12-react-router-source)
+1. [CSS Module](#demo06-css-module-source)
+1. [UglifyJs Plugin](#demo07-uglifyjs-plugin-source)
+1. [Environment flags](#demo08-environment-flags-source)
+1. [Common chunk](#demo09-common-chunk-source)
+1. [Vendor chunk](#demo10-vendor-chunk-source)
+1. [Exposing Global Variables](#demo11-exposing-global-variables-source)
+1. [React hot loader](#demo12-react-hot-loader-source)
+1. [React router](#demo13-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -326,7 +327,78 @@ After launching the server, `small.png` and `big.png` will have the following UR
 <img src="4853ca667a2b8b8844eb2693ac1b2578.png">
 ```
 
-## Demo06: UglifyJs Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo06))
+## Demo06: CSS Module ([source]https://github.com/ruanyf/webpack-demos/tree/master/demo06))
+
+`css-loader?modules` （the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
+
+It means your module's  CSS is Local scoped CSS by default. You can switch it off with :global(...) or :global for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
+
+index.html
+
+```html
+<html>
+<body>
+  <h1 class="h1">Hello World</h1>
+  <h2 class="h2">Hello Webpack</h2>
+  <div id="example"></div>
+  <script src="./bundle.js"></script>
+</body>
+</html>
+```
+
+app.css
+
+```css
+.h1 {
+  color:red;
+}
+
+:global(.h2) {
+  color: blue;
+}
+```
+
+main.jsx
+
+```javascript
+var React = require('react');
+var style = require('./app.css');
+
+React.render(
+  <div>
+    <h1 className={style.h1}>Hello World</h1>
+    <h2 className="h2">Hello Webpack</h2>
+  </div>,
+  document.getElementById('example')
+);
+```
+
+webpack.config.js
+
+```javascript
+module.exports = {
+  entry: './main.jsx',
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders:[
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+      { test: /\.css$/, loader: 'style-loader!css-loader?modules' }
+    ]
+  }
+};
+```
+
+Launch the server.
+
+```bash
+$ webpeck-dev-server
+```
+
+Visit http://127.0.0.1:8080 , you'll find that only second `h1` is red, because its CSS is local scoped, and both `h2` is blue, because its CSS is global scoped.
+
+## Demo07: UglifyJs Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo07))
 
 Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) will minify JS codes.
 
@@ -374,7 +446,7 @@ After launching the server, `main.js` will be minified into following.
 var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 ```
 
-## Demo07: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo07))
+## Demo08: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
 
 You can enable some codes only in development environment with environment flags.
 
@@ -422,7 +494,7 @@ Now pass environment variable into webpack.
 $ env DEBUG=true webpack-dev-server
 ```
 
-## Demo08: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
+## Demo09: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
 
 When multi scripts have common chunks, you can extract the common part into a separate file with CommonsChunkPlugin.
 
@@ -480,7 +552,7 @@ module.exports = {
 }
 ```
 
-## Demo09: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
+## Demo10: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
 
 You can also extract the vendor libraries from a script into a separate file with CommonsChunkPlugin.
 
@@ -549,7 +621,7 @@ module.exports = {
 };
 ```
 
-## Demo10: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+## Demo11: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
 
 If you want to use some global variables, and don't want to includes them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](http://webpack.github.io/docs/library-and-externals.html)).
 
@@ -594,7 +666,7 @@ React.render(
 );
 ```
 
-## Demo11: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+## Demo12: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
 This demo is copied from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
 
@@ -680,7 +752,7 @@ module.exports = {
 };
 ```
 
-## Demo12: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
+## Demo13: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
 
 This demo uses webpack to build [React-router](https://github.com/rackt/react-router/blob/0.13.x/docs/guides/overview.md)'s official example.
 

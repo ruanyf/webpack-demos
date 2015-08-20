@@ -1,13 +1,15 @@
 var webpack = require('webpack');
-
-var devFlagPlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
-});
-
+var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 module.exports = {
   entry: './main.js',
   output: {
     filename: 'bundle.js'
   },
-  plugins: [devFlagPlugin]
-};
+  plugins: [
+    new uglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]
+}

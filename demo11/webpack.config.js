@@ -1,25 +1,17 @@
-var webpack = require('webpack');
-var path = require('path');
-
 module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './index.js'
-  ],
+  entry: './main.jsx',
   output: {
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: 'bundle.js'
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      loaders: ['react-hot-loader', 'babel-loader'],
-      include: path.join(__dirname, '.')
-    }]
+    loaders:[
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+    ]
+  },
+  externals: {
+    // require("jquery") is external and available
+    //  on the global var jQuery
+    //  "jquery": "jQuery"
+    'data': 'data'
   }
 };
