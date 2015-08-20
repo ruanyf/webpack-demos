@@ -171,9 +171,9 @@ module.exports = {
 };
 ```
 
-## Demo03: JSX-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
+## Demo03: Babel-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
 
-Loaders are preprocessors which transform a resource file of your app. For example, [JSX-loader](https://www.npmjs.com/package/jsx-loader) can transform JSX file into JS file.
+Loaders are preprocessors which transform a resource file of your app. For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can transform JSX/ES6 file into JS file.
 
 `main.jsx` is a JSX file.
 
@@ -206,7 +206,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
     ]
   }
 };
@@ -383,7 +383,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.css$/, loader: 'style-loader!css-loader?modules' }
     ]
   }
@@ -543,7 +543,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
     ]
   },
   plugins: [
@@ -642,7 +642,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'jsx-loader' },
+      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
     ]
   },
   externals: {
