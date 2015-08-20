@@ -327,7 +327,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 <img src="4853ca667a2b8b8844eb2693ac1b2578.png">
 ```
 
-## Demo06: CSS Module ([source]https://github.com/ruanyf/webpack-demos/tree/master/demo06))
+## Demo06: CSS Module ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo06))
 
 `css-loader?modules` （the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
 
