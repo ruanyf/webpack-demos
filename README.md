@@ -331,7 +331,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 
 `css-loader?modules` （the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
 
-It means your module's  CSS is Local scoped CSS by default. You can switch it off with :global(...) or :global for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
+It means your module's  CSS is local scoped CSS by default. You can switch it off with `:global(...)` for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
 
 index.html
 
