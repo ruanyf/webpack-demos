@@ -83,7 +83,7 @@ To produce a production ready application, you could write `scripts` field in yo
 
 1. [Entry file](#demo01-entry-file-source)
 1. [Multiple entry files](#demo02-multiple-entry-files-source)
-1. [JSX-loader](#demo03-jsx-loader-source)
+1. [Babel-loader](#demo03-babel-loader-source)
 1. [CSS-loader](#demo04-css-loader-source)
 1. [Image loader](#demo05-image-loader-source)
 1. [CSS Module](#demo06-css-module-source)
