@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-loader": "^5.3.2",
+    "bundle-loader": "^0.5.4",
     "css-loader": "~0.16.0",
     "file-loader": "~0.8.4",
     "jquery": "~2.1.4",

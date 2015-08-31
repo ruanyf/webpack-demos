@@ -89,11 +89,13 @@ To produce a production ready application, you could write `scripts` field in yo
 1. [CSS Module](#demo06-css-module-source)
 1. [UglifyJs Plugin](#demo07-uglifyjs-plugin-source)
 1. [Environment flags](#demo08-environment-flags-source)
-1. [Common chunk](#demo09-common-chunk-source)
-1. [Vendor chunk](#demo10-vendor-chunk-source)
-1. [Exposing Global Variables](#demo11-exposing-global-variables-source)
-1. [React hot loader](#demo12-react-hot-loader-source)
-1. [React router](#demo13-react-router-source)
+1. [Code splitting](#demo09-code-splitting-source)
+1. [Code splitting with bundle-loader](#demo10-code-splitting-with-bundle-loader-source)
+1. [Common chunk](#demo11-common-chunk-source)
+1. [Vendor chunk](#demo12-vendor-chunk-source)
+1. [Exposing Global Variables](#demo13-exposing-global-variables-source)
+1. [React hot loader](#demo14-react-hot-loader-source)
+1. [React router](#demo15-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -494,7 +496,78 @@ Now pass environment variable into webpack.
 $ env DEBUG=true webpack-dev-server
 ```
 
-## Demo09: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
+## Demo09: Code splitting ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
+
+For big web apps it’s not efficient to put all code into a single file, Webpack allows you to split them into several chunks. Especially if some blocks of code are only required under some circumstances, these chunks could be loaded on demand.
+
+At first, you use `require.ensure` to define a split point. ([official document](http://webpack.github.io/docs/code-splitting.html))
+
+```javascript
+// main.js
+require.ensure(['./a'], function(require) {
+  var content = require('./a');
+  document.open();
+  document.write('<h1>' + content + '</h1>');
+  document.close();
+});
+```
+
+`require.ensure` tells Webpack that `./a.js` should be separated from `bundle.js` and  built into a single chunk file.
+
+```javascript
+// a.js
+module.exports = 'Hello World';
+```
+
+Now Webpack takes care of the dependencies, output files and runtime stuff. You don't have to put any redundancy into your `index.html` and `webpack.config.js`.
+
+```html
+<html>
+  <body>
+    <script src="bundle.js"></script>
+  <body>
+</html>
+```
+
+webpack.config.js
+
+```javascript
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'
+  }
+};
+```
+
+Launch the server.
+
+```bash
+$ web-dev-server
+```
+
+On the surface, you won't feel any differences. However, Webpack actually builds `main.js` and `a.js` into different chunks(`bundle.js` and `1.bundle.js`), and loads `1.bundle.js` from `bundle.js` when on demand.
+
+## Demo10: Code splitting with bundle-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+
+Another way of code splitting is using [bundle-loader](https://www.npmjs.com/package/bundle-loader).
+
+```javascript
+// main.js
+var load = require('bundle-loader!./a.js');
+
+load(function(file) {
+  document.open();
+  document.write('<h1>' + file + '</h1>');
+  document.close();
+});
+```
+
+`require('bundle-loader!./a.js')` tells Webpack to load `a.js` from another chunk.
+
+Now Webpack will build `main.js` into `a.js`, and `a.js` into `1.bundle.js`.
+
+## Demo11: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
 
 When multi scripts have common chunks, you can extract the common part into a separate file with CommonsChunkPlugin.
 
@@ -552,7 +625,7 @@ module.exports = {
 }
 ```
 
-## Demo10: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+## Demo12: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
 You can also extract the vendor libraries from a script into a separate file with CommonsChunkPlugin.
 
@@ -621,7 +694,7 @@ module.exports = {
 };
 ```
 
-## Demo11: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+## Demo13: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
 
 If you want to use some global variables, and don't want to includes them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](http://webpack.github.io/docs/library-and-externals.html)).
 
@@ -666,7 +739,7 @@ React.render(
 );
 ```
 
-## Demo12: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
+## Demo14: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo14))
 
 This demo is copied from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
 
@@ -752,7 +825,7 @@ module.exports = {
 };
 ```
 
-## Demo13: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
+## Demo15: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
 
 This demo uses webpack to build [React-router](https://github.com/rackt/react-router/blob/0.13.x/docs/guides/overview.md)'s official example.
 
