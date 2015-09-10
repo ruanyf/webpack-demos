@@ -333,7 +333,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 
 `css-loader?modules` （the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
 
-It means your module's  CSS is local scoped CSS by default. You can switch it off with `:global(...)` for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
+It means your module's CSS is local scoped CSS by default. You can switch it off with `:global(...)` for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
 
 index.html
 
@@ -395,7 +395,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ webpeck-dev-server
+$ webpack-dev-server
 ```
 
 Visit http://127.0.0.1:8080 , you'll find that only second `h1` is red, because its CSS is local scoped, and both `h2` is blue, because its CSS is global scoped.
