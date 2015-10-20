@@ -1,13 +1,17 @@
-var webpack = require('webpack');
-
-var devFlagPlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
-});
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
   entry: './main.js',
   output: {
     filename: 'bundle.js'
   },
-  plugins: [devFlagPlugin]
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Webpack-demos'
+    }),
+    new OpenBrowserPlugin({
+      url: 'http://localhost:8080'
+    })
+  ]
 };

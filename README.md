@@ -88,14 +88,15 @@ To produce a production ready application, you could write `scripts` field in yo
 1. [Image loader](#demo05-image-loader-source)
 1. [CSS Module](#demo06-css-module-source)
 1. [UglifyJs Plugin](#demo07-uglifyjs-plugin-source)
-1. [Environment flags](#demo08-environment-flags-source)
-1. [Code splitting](#demo09-code-splitting-source)
-1. [Code splitting with bundle-loader](#demo10-code-splitting-with-bundle-loader-source)
-1. [Common chunk](#demo11-common-chunk-source)
-1. [Vendor chunk](#demo12-vendor-chunk-source)
-1. [Exposing Global Variables](#demo13-exposing-global-variables-source)
-1. [React hot loader](#demo14-react-hot-loader-source)
-1. [React router](#demo15-react-router-source)
+1. [HTML Webpack Plugin and Open Browser Webpack Plugin](#demo08-html-webpack-plugin-and-open-browser-webpack-plugin-source)
+1. [Environment flags](#demo09-environment-flags-source)
+1. [Code splitting](#demo10-code-splitting-source)
+1. [Code splitting with bundle-loader](#demo11-code-splitting-with-bundle-loader-source)
+1. [Common chunk](#demo12-common-chunk-source)
+1. [Vendor chunk](#demo13-vendor-chunk-source)
+1. [Exposing Global Variables](#demo14-exposing-global-variables-source)
+1. [React hot loader](#demo15-react-hot-loader-source)
+1. [React router](#demo16-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -448,7 +449,49 @@ After launching the server, `main.js` will be minified into following.
 var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 ```
 
-## Demo08: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
+## Demo08: HTML Webpack Plugin and Open Browser Webpack Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
+
+This demo show you how to load 3rd-party plugins.
+
+[html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) could create `index.html` for you, and [open-browser-webpack-plugin](https://github.com/baldore/open-browser-webpack-plugin) could open a new browser tab when Webpack loads.
+
+main.js
+
+```javascript
+document.write('<h1>Hello World</h1>');
+```
+
+webpack.config.js
+
+```javascript
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new HtmlwebpackPlugin({
+      title: 'Webpack-demos'
+    }),
+    new OpenBrowserPlugin({
+      url: 'http://localhost:8080'
+    })
+  ]
+};
+```
+
+Run `webpack-dev-server`.
+
+```bash
+$ webpack-dev-server
+```
+
+Now you don't need to write `index.html` by hand and don't have to open browser by yourself. Webpack did all these things for you.
+
+## Demo09: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
 
 You can enable some codes only in development environment with environment flags.
 
@@ -496,7 +539,7 @@ Now pass environment variable into webpack.
 $ env DEBUG=true webpack-dev-server
 ```
 
-## Demo09: Code splitting ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
+## Demo10: Code splitting ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
 
 For big web apps it’s not efficient to put all code into a single file, Webpack allows you to split them into several chunks. Especially if some blocks of code are only required under some circumstances, these chunks could be loaded on demand.
 
@@ -548,7 +591,7 @@ $ web-dev-server
 
 On the surface, you won't feel any differences. However, Webpack actually builds `main.js` and `a.js` into different chunks(`bundle.js` and `1.bundle.js`), and loads `1.bundle.js` from `bundle.js` when on demand.
 
-## Demo10: Code splitting with bundle-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
+## Demo11: Code splitting with bundle-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
 
 Another way of code splitting is using [bundle-loader](https://www.npmjs.com/package/bundle-loader).
 
@@ -567,7 +610,7 @@ load(function(file) {
 
 Now Webpack will build `main.js` into `a.js`, and `a.js` into `1.bundle.js`.
 
-## Demo11: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo11))
+## Demo12: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
 When multi scripts have common chunks, you can extract the common part into a separate file with CommonsChunkPlugin.
 
@@ -625,7 +668,7 @@ module.exports = {
 }
 ```
 
-## Demo12: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
+## Demo13: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
 
 You can also extract the vendor libraries from a script into a separate file with CommonsChunkPlugin.
 
@@ -694,7 +737,7 @@ module.exports = {
 };
 ```
 
-## Demo13: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
+## Demo14: Exposing global variables ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo14))
 
 If you want to use some global variables, and don't want to includes them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](http://webpack.github.io/docs/library-and-externals.html)).
 
@@ -739,7 +782,7 @@ React.render(
 );
 ```
 
-## Demo14: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo14))
+## Demo15: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
 
 This demo is copied from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
 
@@ -825,7 +868,7 @@ module.exports = {
 };
 ```
 
-## Demo15: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
+## Demo16: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo16))
 
 This demo uses webpack to build [React-router](https://github.com/rackt/react-router/blob/0.13.x/docs/guides/overview.md)'s official example.
 
