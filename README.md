@@ -95,7 +95,7 @@ To produce a production ready application, you could write `scripts` field in yo
 1. [Common chunk](#demo12-common-chunk-source)
 1. [Vendor chunk](#demo13-vendor-chunk-source)
 1. [Exposing Global Variables](#demo14-exposing-global-variables-source)
-1. [React hot loader](#demo15-react-hot-loader-source)
+1. [Hot Module Replacement](#demo15-hot-module-replacement-source)
 1. [React router](#demo16-react-router-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
@@ -176,7 +176,7 @@ module.exports = {
 
 ## Demo03: Babel-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
 
-Loaders are preprocessors which transform a resource file of your app. For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can transform JSX/ES6 file into JS file.
+Loaders are preprocessors which transform a resource file of your app （[more info](http://webpack.github.io/docs/using-loaders.html)）. For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can transform JSX/ES6 file into JS file. Official doc has a complete list of [loaders](http://webpack.github.io/docs/list-of-loaders.html).
 
 `main.jsx` is a JSX file.
 
@@ -451,7 +451,7 @@ var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 
 ## Demo08: HTML Webpack Plugin and Open Browser Webpack Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
 
-This demo show you how to load 3rd-party plugins.
+This demo shows you how to load 3rd-party plugins.
 
 [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) could create `index.html` for you, and [open-browser-webpack-plugin](https://github.com/baldore/open-browser-webpack-plugin) could open a new browser tab when Webpack loads.
 
@@ -782,25 +782,65 @@ React.render(
 );
 ```
 
-## Demo15: React hot loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
+## Demo15: Hot Module Replacement ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
 
-This demo is copied from [React hot boilerplate](https://github.com/gaearon/react-hot-boilerplate).
+[Hot Module Replacement](https://github.com/webpack/docs/wiki/hot-module-replacement-with-webpack) (HMR) exchanges, adds, or removes modules while an application is running **without** a page reload.
 
-[React Hot Loader](http://gaearon.github.io/react-hot-loader/) is a plugin for Webpack that allows instantaneous live refresh without losing state while editing React components.
+You have [two ways](http://webpack.github.io/docs/webpack-dev-server.html#hot-module-replacement) to enable Hot Module Replacement with the webpack-dev-server.
 
-Because we use global `webpack-dev-server`, you have to install some modules globally as well to run this demo.
-
-```bash
-$ npm i -g react-hot-loader react babel-loader
-```
-
-Then run `webpack-dev-server`.
+(1) Specify `--hot` and `--inline` on the command line
 
 ```bash
-$ webpack-dev-server --progress --hot
+$ webpack-dev-server --hot --inline
 ```
 
-Now you should see 'Hello World' in your browser. `--hot` option tells `webpack-dev-server` to replace a component without a full page reload when the component source changed.
+Meaning of the options:
+
+- `--hot`: adds the HotModuleReplacementPlugin and switch the server to hot mode.
+- `--inline`: embed the webpack-dev-server runtime into the bundle.
+- `--hot --inline`: also adds the webpack/hot/dev-server entry.
+
+(2) Modify `webpack.config.js`.
+
+- add `new webpack.HotModuleReplacementPlugin()` to the `plugins` field
+- add `webpack/hot/dev-server` and `webpack-dev-server/client?http://localhost:8080` to the `entry` field
+
+`webpack.config.js` looks like the following.
+
+```javascript
+var webpack = require('webpack');
+var path = require('path');
+
+module.exports = {
+  entry: [
+    'webpack/hot/dev-server',
+    'webpack-dev-server/client?http://localhost:8080',
+    './index.js'
+  ],
+  output: {
+    filename: 'bundle.js',
+    publicPath: '/static/'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['babel-loader'],
+      include: path.join(__dirname, '.')
+    }]
+  }
+};
+```
+
+Now launch the dev server.
+
+```bash
+$ webpack-dev-server
+```
+
+Visiting http://localhost:8080, you should see 'Hello World' in your browser.
 
 Don't close the server. Open a new terminal to edit `App.js`, and modify 'Hello World' into 'Hello Webpack'. Save it, and see what happened in the browser.
 
@@ -836,36 +876,6 @@ index.html
     <script src="/static/bundle.js"></script>
   </body>
 </html>
-```
-
-webpack.config.js
-
-```javascript
-var webpack = require('webpack');
-var path = require('path');
-
-module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './index.js'
-  ],
-  output: {
-    filename: 'bundle.js',
-    publicPath: '/static/'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
-  module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      loaders: ['react-hot-loader', 'babel-loader'],
-      include: path.join(__dirname, '.')
-    }]
-  }
-};
 ```
 
 ## Demo16: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo16))
