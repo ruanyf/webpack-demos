@@ -5,15 +5,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
-      }
+      { test: /\.js[x]?$/,loader: 'babel',query: {presets: ['es2015', 'react']} }
     ]
   },
   externals: {

@@ -209,15 +209,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
-      }
+      { test: /\.js[x]?$/, loader: 'babel', query: { presets: ['es2015', 'react']} }
     ]
   }
 };
@@ -394,15 +386,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
-      },
+      { test: /\.js[x]?$/, loader: 'babel', query: {presets: ['es2015', 'react']} },
       { test: /\.css$/, loader: 'style-loader!css-loader?modules' }
     ]
   }
@@ -675,15 +659,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
-      }
+      { test: /\.js[x]?$/, loader: 'babel',query: {presets: ['es2015', 'react']} }
     ]
   },
   plugins: [
@@ -782,15 +758,7 @@ module.exports = {
   },
   module: {
     loaders:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
-      }
+      { test: /\.js[x]?$/,loader: 'babel', query: {presets: ['es2015', 'react']}}
     ]
   },
   externals: {
@@ -859,10 +827,8 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js[x]?$/,
-      exclude: /node_modules/,
       loader: 'babel',
       query: {
-        cacheDirectory: true,
         presets: ['es2015', 'react']
       },
       include: path.join(__dirname, '.')
