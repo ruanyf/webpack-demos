@@ -210,13 +210,32 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader?presets[]=es2015&presets[]=react'
+      },
     ]
   }
 };
 ```
 
-In `webpack.config.js`, `module.loaders` field is used to assign loaders.
+In `webpack.config.js`, `module.loaders` field is used to assign loaders. The above snippet uses `babel-loader` which also needs plugins [babel-preset-es2015](https://www.npmjs.com/package/babel-preset-es2015) and [babel-preset-react](https://www.npmjs.com/package/babel-preset-react) to transpile ES6 and React. You can also take another way to set the babel query option.
+
+```javascript
+module: {
+  loaders: [
+    {
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel',
+      query: {
+        presets: ['es2015', 'react']
+      }
+    }
+  ]
+}
+```
 
 ## Demo04: CSS-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo04))
 
@@ -388,8 +407,18 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader?modules' }
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?modules'
+      }
     ]
   }
 };
@@ -664,7 +693,14 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
     ]
   },
   plugins: [
@@ -763,7 +799,14 @@ module.exports = {
   },
   module: {
     loaders:[
-      { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
     ]
   },
   externals: {
@@ -833,7 +876,11 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
+      exclude: /node_modules/,
       loaders: ['babel-loader'],
+      query: {
+        presets: ['es2015', 'react']
+      }
       include: path.join(__dirname, '.')
     }]
   }
