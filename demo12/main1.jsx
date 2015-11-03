@@ -1,5 +1,6 @@
 var React = require('react');
-React.render(
+var ReactDOM = require('react-dom');
+ReactDOM.render(
   <h1>Hello World</h1>,
   document.getElementById('a')
 );

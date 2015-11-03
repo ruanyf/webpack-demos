@@ -182,8 +182,9 @@ Loaders are preprocessors which transform a resource file of your app （[more i
 
 ```javascript
 var React = require('react');
+var ReactDOM = require('react-dom');
 
-React.render(
+ReactDOM.render(
   <h1>Hello, world!</h1>,
   document.body
 );
@@ -365,9 +366,10 @@ main.jsx
 
 ```javascript
 var React = require('react');
+var ReactDOM = require('react-dom');
 var style = require('./app.css');
 
-React.render(
+ReactDOM.render(
   <div>
     <h1 className={style.h1}>Hello World</h1>
     <h2 className="h2">Hello Webpack</h2>
@@ -617,14 +619,18 @@ When multi scripts have common chunks, you can extract the common part into a se
 ```javascript
 // main1.jsx
 var React = require('react');
-React.render(
+var ReactDOM = require('react-dom');
+
+ReactDOM.render(
   <h1>Hello World</h1>,
   document.getElementById('a')
 );
 
 // main2.jsx
 var React = require('react');
-React.render(
+var ReactDOM = require('react-dom');
+
+ReactDOM.render(
   <h2>Hello Webpack</h2>,
   document.getElementById('b')
 );
@@ -633,7 +639,6 @@ React.render(
 index.html
 
 ```html
-
 <html>
   <body>
     <div id="a"></div>
@@ -775,8 +780,9 @@ Now, you require `data` as a module variable in your script. but it actually is 
 // main.jsx
 var data = require('data');
 var React = require('react');
+var ReactDOM = require('react-dom');
 
-React.render(
+ReactDOM.render(
   <h1>{data}</h1>,
   document.body
 );
@@ -862,9 +868,10 @@ index.js
 
 ```javascript
 import React from 'react';
+import ReactDOM = require('react-dom');
 import App from './App';
 
-React.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 index.html
