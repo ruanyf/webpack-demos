@@ -586,7 +586,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ web-dev-server
+$ webpack-dev-server
 ```
 
 On the surface, you won't feel any differences. However, Webpack actually builds `main.js` and `a.js` into different chunks(`bundle.js` and `1.bundle.js`), and loads `1.bundle.js` from `bundle.js` when on demand.
