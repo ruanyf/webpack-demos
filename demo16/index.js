@@ -1,10 +1,7 @@
-var Router = require('react-router'); // or var Router = ReactRouter; in browsers
-var React = require('react');
-
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Link } from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 require('./app.css');
 
@@ -20,9 +17,7 @@ var App = React.createClass({
           </ul>
           Logged in as Jane
         </header>
-
-        {/* this is the important part */}
-        <RouteHandler/>
+        {this.props.children}
       </div>
     );
   }
@@ -58,22 +53,14 @@ var Calendar = React.createClass({
   }
 });
 
-var routes = (
-  <Route name="app" path="/" handler={App}>
-    <Route name="inbox" handler={Inbox}/>
-    <Route name="calendar" handler={Calendar}/>
-    <DefaultRoute handler={Dashboard}/>
-  </Route>
-);
+let history = createBrowserHistory();
 
-/*
-Router.run(routes, function (Handler) {
-  React.render(<Handler/>, document.body);
-});
-*/
-
-// Or, if you'd like to use the HTML5 history API for cleaner URLs:
-
-Router.run(routes, Router.HistoryLocation, function (Handler) {
-  React.render(<Handler/>, document.body);
-});
+render((
+  <Router history={history}>
+    <Route path="/" component={App}>
+      <Route path="inbox" component={Inbox}/>
+      <Route path="calendar" component={Calendar}/>
+      <Route path="*" component={Dashboard}/>
+    </Route>
+  </Router>
+), document.body);
