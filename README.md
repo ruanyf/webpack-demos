@@ -181,8 +181,8 @@ Loaders are preprocessors which transform a resource file of your app （[more i
 `main.jsx` is a JSX file.
 
 ```javascript
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 ReactDOM.render(
   <h1>Hello, world!</h1>,
