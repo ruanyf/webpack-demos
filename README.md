@@ -567,7 +567,11 @@ module.exports = {
 Now pass environment variable into webpack.
 
 ```bash
+# Linux & Mac
 $ env DEBUG=true webpack-dev-server
+
+# Windows
+$ DEBUG=true webpack-dev-server
 ```
 
 ## Demo10: Code splitting ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
