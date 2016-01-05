@@ -884,7 +884,7 @@ module.exports = {
       loaders: ['babel-loader'],
       query: {
         presets: ['es2015', 'react']
-      }
+      },
       include: path.join(__dirname, '.')
     }]
   }
