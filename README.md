@@ -237,6 +237,64 @@ module: {
 }
 ```
 
+If you want import a ```*.jsx``` in ```main.jsx```. Like this.
+
+```main.jsx```
+
+```javascript
+const React = require('react');
+const ReactDOM = require('react-dom');
+
+import App from './App';
+
+ReactDOM.render(
+  <App />,
+  document.body
+);
+```
+
+```App.jsx```
+
+```javascript
+const React = require('react');
+const ReactDOM = require('react-dom');
+
+React.createClass({
+  render() {
+    return (<div>Hello, world</div>)
+  }
+})
+
+export default App;
+```
+
+As webpack doesn't know to resolve ```*.jsx``` files implicitly. So you need specify a file extension in your app (```import App from './App.jsx';```). 
+
+Or, you can include ```.jsx``` in the extensions that webpack should resolve without explicit declaration:
+
+webpack.config.js
+
+```javascript
+module.exports = {
+  entry: './main.jsx',
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders:[
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader?presets[]=es2015&presets[]=react'
+      },
+    ]
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  }
+};
+```
+
 ## Demo04: CSS-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo04))
 
 Webpack allows you to require CSS in JS file, then preprocessed CSS file with CSS-loader.
