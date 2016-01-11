@@ -643,7 +643,7 @@ load(function(file) {
 
 `require('bundle-loader!./a.js')` tells Webpack to load `a.js` from another chunk.
 
-Now Webpack will build `main.js` into `a.js`, and `a.js` into `1.bundle.js`.
+Now Webpack will build `main.js` into `bundle.js`, and `a.js` into `1.bundle.js`.
 
 ## Demo12: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
