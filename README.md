@@ -176,7 +176,7 @@ module.exports = {
 
 ## Demo03: Babel-loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo03))
 
-Loaders are preprocessors which transform a resource file of your app （[more info](http://webpack.github.io/docs/using-loaders.html)）. For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can transform JSX/ES6 file into JS file. Official doc has a complete list of [loaders](http://webpack.github.io/docs/list-of-loaders.html).
+Loaders are preprocessors which transform a resource file of your app ([more info](http://webpack.github.io/docs/using-loaders.html)). For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can transform JSX/ES6 file into JS file. Official doc has a complete list of [loaders](http://webpack.github.io/docs/list-of-loaders.html).
 
 `main.jsx` is a JSX file.
 
@@ -186,7 +186,7 @@ const ReactDOM = require('react-dom');
 
 ReactDOM.render(
   <h1>Hello, world!</h1>,
-  document.body
+  document.querySelector('#wrapper')
 );
 ```
 
@@ -195,7 +195,8 @@ index.html
 ```html
 <html>
   <body>
-    <script type="text/javascript" src="bundle.js"></script>
+    <div id="wrapper"></div>
+    <script src="bundle.js"></script>
   </body>
 </html>
 ```
