@@ -604,7 +604,7 @@ Now Webpack takes care of the dependencies, output files and runtime stuff. You 
 <html>
   <body>
     <script src="bundle.js"></script>
-  <body>
+  </body>
 </html>
 ```
 
