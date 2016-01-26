@@ -451,7 +451,7 @@ index.html
 <html>
 <body>
   <script src="bundle.js"></script>
-</boby>
+</body>
 </html>
 ```
 
