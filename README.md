@@ -353,7 +353,7 @@ After launching the server, `small.png` and `big.png` will have the following UR
 
 ## Demo06: CSS Module ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo06))
 
-`css-loader?modules` （the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
+`css-loader?modules` (the query parameter modules) enables the [CSS Modules](https://github.com/css-modules/css-modules) spec.
 
 It means your module's CSS is local scoped CSS by default. You can switch it off with `:global(...)` for selectors and/or rules. ([more info](https://css-modules.github.io/webpack-demo/))
 
@@ -451,7 +451,7 @@ index.html
 <html>
 <body>
   <script src="bundle.js"></script>
-</boby>
+</body>
 </html>
 ```
 
@@ -591,7 +591,7 @@ require.ensure(['./a'], function(require) {
 });
 ```
 
-`require.ensure` tells Webpack that `./a.js` should be separated from `bundle.js` and  built into a single chunk file.
+`require.ensure` tells Webpack that `./a.js` should be separated from `bundle.js` and built into a single chunk file.
 
 ```javascript
 // a.js
@@ -604,7 +604,7 @@ Now Webpack takes care of the dependencies, output files and runtime stuff. You 
 <html>
   <body>
     <script src="bundle.js"></script>
-  <body>
+  </body>
 </html>
 ```
 
