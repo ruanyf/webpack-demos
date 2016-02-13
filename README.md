@@ -970,7 +970,7 @@ Let's imagine a little app with a dashboard, inbox, and calendar.
 ```
 
 ```bash
-$ webpack-dev-server
+$ webpack-dev-server --history-api-fallback
 ```
 
 ## Useful links
