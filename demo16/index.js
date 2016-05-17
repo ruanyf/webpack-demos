@@ -1,10 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+import { renderToString } from 'react-dom/server';
+import { Router, Route, Link, IndexRoute, browserHistory, createMemoryHistory, RouterContext, match } from 'react-router';
 
-require('./app.css');
-
-var App = React.createClass({
+let App = React.createClass({
   render: function () {
     return (
       <div>
@@ -22,7 +21,7 @@ var App = React.createClass({
   }
 });
 
-var Dashboard = React.createClass({
+let Dashboard = React.createClass({
   render: function () {
     return (
       <div>
@@ -32,7 +31,7 @@ var Dashboard = React.createClass({
   }
 });
 
-var Inbox = React.createClass({
+let Inbox = React.createClass({
   render: function () {
     return (
       <div>
@@ -42,7 +41,7 @@ var Inbox = React.createClass({
   }
 });
 
-var Calendar = React.createClass({
+let Calendar = React.createClass({
   render: function () {
     return (
       <div>
@@ -52,14 +51,29 @@ var Calendar = React.createClass({
   }
 });
 
-render((
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Dashboard}/>
-      <Route path="app" component={Dashboard}/>
-      <Route path="inbox" component={Inbox}/>
-      <Route path="calendar" component={Calendar}/>
-      <Route path="*" component={Dashboard}/>
-    </Route>
-  </Router>
-), document.querySelector('#app'));
+let routes = (<Route path="/" component={App}>
+  <IndexRoute component={Dashboard}/>
+  <Route path="app" component={Dashboard}/>
+  <Route path="inbox" component={Inbox}/>
+  <Route path="calendar" component={Calendar}/>
+  <Route path="*" component={Dashboard}/>
+</Route>);
+
+if (typeof document !== 'undefined') {
+  require('./app.css');
+  render((
+    <Router routes={routes} history={browserHistory}>
+    </Router>
+  ), document.querySelector('#app'));
+}
+
+export default (locals, callback) => {
+  const history = createMemoryHistory();
+  const location = history.createLocation(locals.path);
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
+    callback(null, locals.template({
+      html: renderToString(<RouterContext {...renderProps} />),
+      bundlejs: locals.bundlejs
+    }));
+  });
+};
