@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, IndexRoute } from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
 
 require('./app.css');
 
@@ -53,10 +52,8 @@ var Calendar = React.createClass({
   }
 });
 
-let history = createBrowserHistory();
-
 render((
-  <Router history={history}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Dashboard}/>
       <Route path="app" component={Dashboard}/>
@@ -65,4 +62,4 @@ render((
       <Route path="*" component={Dashboard}/>
     </Route>
   </Router>
-), document.body);
+), document.querySelector('#app'));

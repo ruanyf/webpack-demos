@@ -25,7 +25,7 @@
     "open-browser-webpack-plugin": "0.0.1",
     "react": "~0.14.2",
     "react-dom": "~0.14.2",
-    "react-router": "^1.0.3",
+    "react-router": "2.x",
     "style-loader": "~0.12.3",
     "url-loader": "~0.5.6",
     "webpack": "~1.11.0",
