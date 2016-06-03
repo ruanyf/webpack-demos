@@ -506,7 +506,8 @@ module.exports = {
   },
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'Webpack-demos'
+      title: 'Webpack-demos',
+      filename: 'index.html'
     }),
     new OpenBrowserPlugin({
       url: 'http://localhost:8080'
