@@ -287,7 +287,7 @@ module.exports = {
 
 Attention, you have to use two loaders to transform CSS file. First is [CSS-loader](https://www.npmjs.com/package/css-loader) to read CSS file, and another is [Style-loader](https://www.npmjs.com/package/style-loader) to insert Style tag into HTML page. Different loaders are linked by exclamation mark(!).
 
-After launching the server, `index.html` will have inline style.
+After launching the server, `index.html` will have internal style sheet.
 
 ```html
 <head>
