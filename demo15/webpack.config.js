@@ -14,6 +14,9 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
+  devServer: {
+    hot: true
+  },
   module: {
     loaders: [{
       test: /\.jsx?$/,
