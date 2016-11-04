@@ -13,7 +13,12 @@ $ npm i -g webpack webpack-dev-server
 Then, clone the repo and install the dependencies.
 
 ```bash
+# Linux & Mac
 $ git clone git@github.com:ruanyf/webpack-demos.git
+
+# Windows
+$ git clone https://github.com/ruanyf/webpack-demos.git
+
 $ cd webpack-demos
 $ npm install
 ```
