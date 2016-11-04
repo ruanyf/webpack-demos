@@ -18,7 +18,7 @@ $ git clone git@github.com:ruanyf/webpack-demos.git
 
 # Windows
 $ git clone https://github.com/ruanyf/webpack-demos.git
-
+:
 $ cd webpack-demos
 $ npm install
 ```
@@ -292,7 +292,7 @@ module.exports = {
 
 Attention, you have to use two loaders to transform CSS file. First is [CSS-loader](https://www.npmjs.com/package/css-loader) to read CSS file, and another is [Style-loader](https://www.npmjs.com/package/style-loader) to insert Style tag into HTML page. Different loaders are linked by exclamation mark(!).
 
-After launching the server, `index.html` will have inline style.
+After launching the server, `index.html` will have internal style sheet.
 
 ```html
 <head>
@@ -347,7 +347,7 @@ module.exports = {
 };
 ```
 
-[url-loader](https://www.npmjs.com/package/url-loader) transforms image files. If the image size is smaller than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL. As you see, question mark(?) is be used to pass parameters into loaders.
+[url-loader](https://www.npmjs.com/package/url-loader) transforms image files. If the image size is smaller than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL. As you see, question mark(?) is used to pass parameters into loaders.
 
 After launching the server, `small.png` and `big.png` will have the following URLs.
 
@@ -931,7 +931,7 @@ index.js
 
 ```javascript
 import React from 'react';
-import ReactDOM = require('react-dom');
+import ReactDOM from 'react-dom';
 import App from './App';
 
 ReactDOM.render(<App />, document.getElementById('root'));
