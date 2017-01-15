@@ -9,7 +9,7 @@
     "webpack"
   ],
   "scripts":{
-    "1":"node ./command.js"
+    "demo":"node ./command.js"
   },
   "author": "Ruan Yifeng",
   "license": "MIT",

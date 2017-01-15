@@ -9,7 +9,11 @@ First, install [Webpack](https://www.npmjs.com/package/webpack) and [webpack-dev
 ```bash
 $ npm i -g webpack webpack-dev-server
 ```
-
+you can simply run the following command to see demo result
+```bash
+$ npm run demo 1 
+$ npm run demo 16
+```
 Then, clone the repo and install the dependencies.
 
 ```bash
