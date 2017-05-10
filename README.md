@@ -15,10 +15,9 @@ Then, clone the repo and install the dependencies.
 ```bash
 # Linux & Mac
 $ git clone git@github.com:ruanyf/webpack-demos.git
-
 # Windows
 $ git clone https://github.com/ruanyf/webpack-demos.git
-:
+
 $ cd webpack-demos
 $ npm install
 ```
@@ -27,7 +26,7 @@ Now, play with the source files under the repo's demo* directories.
 
 ```bash
 $ cd demo01
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 Visit http://127.0.0.1:8080 with your browser.
@@ -139,7 +138,7 @@ module.exports = {
 Launch the server, visit http://127.0.0.1:8080 .
 
 ```bash
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 ## Demo02: Multiple entry files ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo02))
@@ -433,7 +432,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 Visit http://127.0.0.1:8080 , you'll find that only second `h1` is red, because its CSS is local scoped, and both `h2` is blue, because its CSS is global scoped.
@@ -524,7 +523,7 @@ module.exports = {
 Run `webpack-dev-server`.
 
 ```bash
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 Now you don't need to write `index.html` by hand and don't have to open browser by yourself. Webpack did all these things for you.
@@ -575,11 +574,11 @@ Now pass environment variable into webpack.
 
 ```bash
 # Linux & Mac
-$ env DEBUG=true webpack-dev-server
+$ env DEBUG=true ../node_modules/.bin/webpack-dev-server
 
 # Windows
 $ set DEBUG=true
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 ## Demo10: Code splitting ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo10))
@@ -629,7 +628,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 On the surface, you won't feel any differences. However, Webpack actually builds `main.js` and `a.js` into different chunks(`bundle.js` and `1.bundle.js`), and loads `1.bundle.js` from `bundle.js` when on demand.
@@ -856,7 +855,7 @@ You have [two ways](http://webpack.github.io/docs/webpack-dev-server.html#hot-mo
 (1) Specify `--hot` and `--inline` on the command line
 
 ```bash
-$ webpack-dev-server --hot --inline
+$ ../node_modules/.bin/webpack-dev-server --hot --inline
 ```
 
 Meaning of the options:
@@ -906,7 +905,7 @@ module.exports = {
 Now launch the dev server.
 
 ```bash
-$ webpack-dev-server
+$ ../node_modules/.bin/webpack-dev-server
 ```
 
 Visiting http://localhost:8080, you should see 'Hello World' in your browser.
@@ -977,7 +976,7 @@ Let's imagine a little app with a dashboard, inbox, and calendar.
 ```
 
 ```bash
-$ webpack-dev-server --history-api-fallback
+$ ../node_modules/.bin/webpack-dev-server --history-api-fallback
 ```
 
 ## Useful links
