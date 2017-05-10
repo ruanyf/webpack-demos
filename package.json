@@ -8,6 +8,9 @@
     "demo",
     "webpack"
   ],
+  "scripts":{
+    "demo":"node ./command.js"
+  },
   "author": "Ruan Yifeng",
   "license": "MIT",
   "dependencies": {
