@@ -577,8 +577,12 @@ Now pass environment variable into webpack.
 # Linux & Mac
 $ env DEBUG=true webpack-dev-server
 
-# Windows
+# Windows-cmd
 $ set DEBUG=true
+$ webpack-dev-server
+
+# Windows-powershell
+$ $env:DEBUG='true'
 $ webpack-dev-server
 ```
 
