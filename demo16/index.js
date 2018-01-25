@@ -63,7 +63,6 @@ class Calendar extends React.Component {
 };
 
 // ref https://segmentfault.com/q/1010000009616045/a-1020000009618728
-// TODO: http://localhost:8080/app reflesh with 404
 render((
   <BrowserRouter>
     <Route path="/" component={App} />

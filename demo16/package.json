@@ -2,7 +2,7 @@
   "name": "webpack-demo16",
   "version": "1.0.0",
   "scripts": {
-    "dev": "webpack-dev-server --open",
+    "dev": "webpack-dev-server --open --history-api-fallback",
     "build": "webpack"
   },
   "license": "MIT",
