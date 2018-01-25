@@ -31,5 +31,8 @@
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.1"
   },
-  "repository": "ruanyf/webpack-demos"
+  "repository": "ruanyf/webpack-demos",
+  "devDependencies": {
+    "cross-env": "^5.1.3"
+  }
 }
