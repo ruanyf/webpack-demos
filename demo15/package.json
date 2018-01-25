@@ -1,0 +1,9 @@
+{
+  "name": "webpack-demo15",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "license": "MIT"
+}
