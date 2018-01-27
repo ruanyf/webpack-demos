@@ -7,7 +7,7 @@ These demos are purposely written in a simple and clear style. You will find no 
 First, install [Webpack](https://www.npmjs.com/package/webpack) and [webpack-dev-server](https://www.npmjs.com/package/webpack-dev-server) globally.
 
 ```bash
-$ npm i -g webpack@1.x webpack-dev-server@1.x
+$ npm i -g webpack webpack-dev-server
 ```
 
 Then, clone the repo and install the dependencies.
@@ -27,7 +27,7 @@ Now, play with the source files under the repo's demo* directories.
 
 ```bash
 $ cd demo01
-$ webpack-dev-server
+$ npm run dev
 ```
 
 Visit http://127.0.0.1:8080 with your browser.
@@ -139,7 +139,7 @@ module.exports = {
 Launch the server, visit http://127.0.0.1:8080 .
 
 ```bash
-$ webpack-dev-server
+$ npm run dev
 ```
 
 ## Demo02: Multiple entry files ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo02))
@@ -215,7 +215,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders:[
+    rules: [
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
@@ -230,7 +230,7 @@ In `webpack.config.js`, `module.loaders` field is used to assign loaders. The ab
 
 ```javascript
 module: {
-  loaders: [
+  rules: [
     {
       test: /\.jsx?$/,
       exclude: /node_modules/,
@@ -283,7 +283,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders:[
+    rules:[
       { test: /\.css$/, loader: 'style-loader!css-loader' },
     ]
   }
@@ -340,7 +340,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders:[
+    rules:[
       { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
     ]
   }
@@ -412,7 +412,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders:[
+    rules:[
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
@@ -433,7 +433,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ webpack-dev-server
+$ npm run dev
 ```
 
 Visit http://127.0.0.1:8080 , you'll find that only second `h1` is red, because its CSS is local scoped, and both `h2` is blue, because its CSS is global scoped.
@@ -524,7 +524,7 @@ module.exports = {
 Run `webpack-dev-server`.
 
 ```bash
-$ webpack-dev-server
+$ npm run dev
 ```
 
 Now you don't need to write `index.html` by hand and don't have to open browser by yourself. Webpack did all these things for you.
@@ -633,7 +633,7 @@ module.exports = {
 Launch the server.
 
 ```bash
-$ webpack-dev-server
+$ npm run dev
 ```
 
 On the surface, you won't feel any differences. However, Webpack actually builds `main.js` and `a.js` into different chunks(`bundle.js` and `1.bundle.js`), and loads `1.bundle.js` from `bundle.js` when on demand.
@@ -712,7 +712,7 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    loaders:[
+    rules:[
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
@@ -818,7 +818,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders:[
+    rules:[
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
@@ -894,7 +894,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
@@ -981,7 +981,7 @@ Let's imagine a little app with a dashboard, inbox, and calendar.
 ```
 
 ```bash
-$ webpack-dev-server --history-api-fallback
+$ npm run dev
 ```
 
 ## Useful links

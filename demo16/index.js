@@ -1,11 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 require('./app.css');
 
-var App = React.createClass({
-  render: function () {
+// ref https://stackoverflow.com/questions/46482433/reactjs-createclass-is-not-a-function
+class App extends React.Component {
+  render() {
     return (
       <div>
         <header>
@@ -16,50 +17,54 @@ var App = React.createClass({
           </ul>
           Logged in as Jane
         </header>
+        <main>
+          <Switch>
+            <Route exact path="/" component={Dashboard}/>
+            <Route path="/app" component={Dashboard}/>
+            <Route path="/inbox" component={Inbox}/>
+            <Route path="/calendar" component={Calendar}/>
+            <Route path="*" component={Dashboard}/>
+          </Switch>
+        </main>
         {this.props.children}
       </div>
     );
   }
-});
+};
 
-var Dashboard = React.createClass({
-  render: function () {
+class Dashboard extends React.Component {
+  render() {
     return (
       <div>
         <p>Dashboard</p>
       </div>
     );
   }
-});
+};
 
-var Inbox = React.createClass({
-  render: function () {
+class Inbox extends React.Component {
+  render() {
     return (
       <div>
         <p>Inbox</p>
       </div>
     );
   }
-});
+};
 
-var Calendar = React.createClass({
-  render: function () {
+class Calendar extends React.Component {
+  render() {
     return (
       <div>
         <p>Calendar</p>
       </div>
     );
   }
-});
+};
 
+// ref https://segmentfault.com/q/1010000009616045/a-1020000009618728
 render((
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Dashboard}/>
-      <Route path="app" component={Dashboard}/>
-      <Route path="inbox" component={Inbox}/>
-      <Route path="calendar" component={Calendar}/>
-      <Route path="*" component={Dashboard}/>
-    </Route>
-  </Router>
+  <BrowserRouter>
+    <Route path="/" component={App} />
+  </BrowserRouter>
 ), document.querySelector('#app'));
