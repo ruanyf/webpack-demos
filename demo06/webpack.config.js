@@ -4,15 +4,30 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [
+    rules:[
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'react']
+          }
+        }
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules'
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+             loader: 'css-loader',
+             options: {
+               modules: true
+             }
+          }
+        ]
       }
     ]
   }

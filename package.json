@@ -23,17 +23,18 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "bundle-loader": "^0.5.5",
+    "cross-env": "^5.1.3",
     "css-loader": "^0.28.9",
-    "jsx-loader": "^0.13.2",
-    "open-browser-webpack-plugin": "0.0.5",
     "file-loader": "^1.1.6",
     "history": "^4.7.2",
+    "html-webpack-plugin": "^2.30.1",
+    "jsx-loader": "^0.13.2",
+    "open-browser-webpack-plugin": "0.0.5",
     "react-router": "^4.2.0",
     "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "html-webpack-plugin": "^2.30.1",
-    "cross-env": "^5.1.3"
+    "webpack-dev-server": "^2.11.1"
   }
 }

@@ -9,17 +9,26 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    rules: [
-      { test: /\.js[x]?$/,
+    rules:[
+      {
+        test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'react']
+          }
+        }
       },
     ]
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'init',
-      minChunks: 2
+      name: "commons",
+      // (the commons chunk name)
+
+      filename: "commons.js",
+      // (the filename of the commons chunk)
     })
   ]
 }

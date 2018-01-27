@@ -4,8 +4,18 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [
-      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
+    rules:[
+      {
+        test: /\.(png|jpg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      }
     ]
   }
 };
