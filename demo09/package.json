@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "npx cross-env DEBUG=true webpack-dev-server --open",
-    "build": "cross-env DEBUG=false webpack"
+    "build": "npx cross-env DEBUG=false webpack"
   },
   "license": "MIT"
 }
