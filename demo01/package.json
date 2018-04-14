@@ -1,10 +1,10 @@
 {
-  "name": "webpack-demo1",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "dev": "webpack-dev-server --open",
-    "build": "webpack -p"
-  },
-  "license": "MIT"
+    "name": "webpack-demo1",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+        "dev": "webpack-dev-server",
+        "build": "NODE_ENV=production webpack"
+    },
+    "license": "MIT"
 }

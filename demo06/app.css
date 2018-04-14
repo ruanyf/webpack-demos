@@ -1,7 +1,7 @@
 .h1 {
-  color:red;
+    color:red;
 }
 
 :global(.h2) {
-  color: blue;
+    color: blue;
 }

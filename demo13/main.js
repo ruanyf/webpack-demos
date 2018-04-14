@@ -1,2 +1,2 @@
-var $ = require('jquery');
-$('h1').text('Hello World');
+import $ from 'jquery';
+$('h1').text('Hello from jquery');

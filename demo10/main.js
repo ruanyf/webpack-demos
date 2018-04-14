@@ -1,6 +1,6 @@
-require.ensure(['./a'], function(require) {
-  var content = require('./a');
-  document.open();
-  document.write('<h1>' + content + '</h1>');
-  document.close();
+require.ensure(['./a'], require => {
+    const content = require('./a');
+    document.open();
+    document.write(`<h1>${content.default}</h1>`);
+    document.close();
 });

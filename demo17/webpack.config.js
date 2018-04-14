@@ -1,18 +1,27 @@
+const AggressiveSplittingPlugin = require('webpack').optimize.AggressiveSplittingPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
+const modes = {
+    [true]: 'production',
+    [false]: 'development'
+};
+
 module.exports = {
     entry: {
-        main: './main.jsx',
+        app: './app.jsx'
     },
 
     output: {
-        filename: '[name].js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name].[chunkhash].chunk.js'
     },
 
     target: 'web',
 
-    mode: isProduction ? 'production' : 'development',
+    mode: modes[isProduction],
+
+    cache: true, 
 
     module: {
         rules: [{
@@ -30,12 +39,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html'
+        }),
+
+        new AggressiveSplittingPlugin({
+            minSize: 30000,
+            maxSize: 50000
         })
     ],
-
-    externals: {
-        underscore: '_'
-    },
 
     devServer: {
         open: true

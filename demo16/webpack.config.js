@@ -1,27 +1,28 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
+const modes = {
+    [true]: 'production',
+    [false]: 'development'
+};
+
 module.exports = {
-    entry: './index.js',
+    context: __dirname,
+
+    entry: './main.ts',
 
     output: {
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
 
     target: 'web',
 
-    mode: isProduction ? 'production' : 'development',
+    mode: modes[isProduction],
 
     module: {
         rules: [{
-            test: /\.js[x]?$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['es2015', 'react']
-                }
-            }
+            test: /\.ts$/,
+            loader: 'ts-loader'
         }, {
             test: /\.css$/,
             use: [{
@@ -33,9 +34,7 @@ module.exports = {
     },
 
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './index.html'
-        })
+        new HtmlWebpackPlugin()
     ],
 
     devServer: {
