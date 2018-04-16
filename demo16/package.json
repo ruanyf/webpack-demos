@@ -1,5 +1,5 @@
 {
-    "name": "webpack-demo12",
+    "name": "webpack-demo16",
     "version": "1.0.0",
     "scripts": {
         "dev": "webpack-dev-server",

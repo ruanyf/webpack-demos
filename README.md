@@ -1,3 +1,7 @@
+<h1 align="center">
+    <img src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/866/739608866_459647a5-afaa-4f81-bef5-6076c8cdf7d3.png?cb=1523910063">
+</h1>
+
 This repo is a collection of simple demos of Webpack.
 
 These demos are purposely written in a simple and clear style. You will find no difficulty in following them to learn the powerful tool.
@@ -16,11 +20,13 @@ Then, clone the repo.
 $ git clone https://github.com/ruanyf/webpack-demos.git
 ```
 
-Install the dependencies.
+Install the dependencies using your favorite manager.
 
 ```bash
 $ cd webpack-demos
 $ npm install
+$ # or if you prefer yarn
+$ yarn
 ```
 
 Now, play with the source files under the repo's demo* directories.
@@ -28,6 +34,8 @@ Now, play with the source files under the repo's demo* directories.
 ```bash
 $ cd demo01
 $ npm run dev
+$ # or
+$ yarn dev
 ```
 
 If the above command doesn't open your browser automaticly, you have to visit http://127.0.0.1:8080 by yourself.
@@ -49,10 +57,11 @@ Webpack needs a configuration file called `webpack.config.js` which is just a Co
 ```javascript
 // webpack.config.js
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  }
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    }
 };
 ```
 
@@ -76,10 +85,10 @@ You could customize `scripts` field in your package.json file as following.
 // package.json
 {
   // ...
-  "scripts": {
-    "dev": "webpack-dev-server --devtool eval --progress --colors",
-    "deploy": "NODE_ENV=production webpack -p"
-  },
+    "scripts": {
+        "dev": "webpack-dev-server --devtool eval --progress --colors",
+        "deploy": "NODE_ENV=production webpack -p"
+    },
   // ...
 }
 ```
@@ -89,11 +98,11 @@ You could customize `scripts` field in your package.json file as following.
 1. [Entry file](#demo01-entry-file-source)
 1. [Multiple entry files](#demo02-multiple-entry-files-source)
 1. [Babel-loader](#demo03-babel-loader-source)
-1. [CSS-loader](#demo04-css-loader-source)
-1. [Image loader](#demo05-image-loader-source)
+1. [CSS-loader](#demo04-css-loader)
+1. [HTML Webpack Plugin](#demo05-html-webpack-plugin)
 1. [CSS Module](#demo06-css-module-source)
 1. [UglifyJs Plugin](#demo07-uglifyjs-plugin-source)
-1. [HTML Webpack Plugin and Open Browser Webpack Plugin](#demo08-html-webpack-plugin-and-open-browser-webpack-plugin-source)
+1. [Image Loader]((#demo08-image-loader-source))
 1. [Environment flags](#demo09-environment-flags-source)
 1. [Code splitting](#demo10-code-splitting-source)
 1. [Code splitting with bundle-loader](#demo11-code-splitting-with-bundle-loader-source)
@@ -101,6 +110,8 @@ You could customize `scripts` field in your package.json file as following.
 1. [Vendor chunk](#demo13-vendor-chunk-source)
 1. [Exposing Global Variables](#demo14-exposing-global-variables-source)
 1. [React router](#demo15-react-router-source)
+1. [TypeScript](#demo16-typescript-source)
+1. [AggressiveSplittingPlugin](#demo17-aggressivesplittingplugin-source)
 
 ## Demo01: Entry file ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo01))
 
@@ -113,25 +124,33 @@ For example, `main.js` is an entry file.
 document.write('<h1>Hello World</h1>');
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
-  <body>
-    <script type="text/javascript" src="bundle.js"></script>
-  </body>
+<body>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+</body>
 </html>
 ```
 
-Webpack follows `webpack.config.js` to build `bundle.js`.
+Webpack follows `webpack.config.js` to build `bundle.js`. Also, we should stop at 2 properties that are declared here - `target` and `mode`. We specify `target` as `web`, because we compile our code for usage in browser-like environment. There are also available targets as `node`, `electron`, etc. `mode` property tells webpack to enable production optimizations or development hints, you can choose one of three - `development`, `production`, `none`. Also, we check our `process.env` global variable, that is injected by Node at runtime, if it has a property `NODE_ENV` that equals to `production`.
+
+`webpack.config.js`
 
 ```javascript
-// webpack.config.js
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  }
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development'
 };
 ```
 
@@ -154,28 +173,35 @@ document.write('<h1>Hello World</h1>');
 document.write('<h2>Hello Webpack</h2>');
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
-  <body>
-    <script src="bundle1.js"></script>
-    <script src="bundle2.js"></script>
-  </body>
+<body>
+    <script src="./dist/bundle1.js"></script>
+    <script src="./dist/bundle2.js"></script>
+</body>
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: {
-    bundle1: './main1.js',
-    bundle2: './main2.js'
-  },
-  output: {
-    filename: '[name].js'
-  }
+    entry: {
+        bundle1: './main1.js',
+        bundle2: './main2.js'
+    },
+
+    output: {
+        filename: '[name].js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development'
 };
 ```
 
@@ -189,48 +215,54 @@ For example, [Babel-loader](https://www.npmjs.com/package/babel-loader) can tran
 
 ```javascript
 // main.jsx
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  document.querySelector('#wrapper')
+    <h1>Hello, world!</h1>,
+    document.querySelector('#wrapper')
 );
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
-  <body>
+<body>
     <div id="wrapper"></div>
-    <script src="bundle.js"></script>
-  </body>
+    <script src="./dist/bundle.js"></script>
+</body>
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.jsx',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
-        }
-      }
-    ]
-  }
+    entry: './main.jsx',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.jsx$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }]
+    }
 };
 ```
 
@@ -240,49 +272,61 @@ The above snippet uses `babel-loader` which needs Babel's preset plugins [babel-
 
 Webpack allows you to include CSS in JS file, then preprocessed CSS file with [CSS-loader](https://github.com/webpack-contrib/css-loader).
 
-main.js
+`main.js`
 
 ```javascript
-require('./app.css');
+import './app.css';
 ```
 
-app.css
+`app.css`
 
 ```css
 body {
-  background-color: blue;
+    background-color: blue;
+}
+
+h1 {
+    color: salmon;
 }
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
-  <head>
-    <script type="text/javascript" src="bundle.js"></script>
-  </head>
-  <body>
+<body>
     <h1>Hello World</h1>
-  </body>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+</body>
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules:[
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      },
-    ]
-  }
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.css$/,
+            use: [{
+                loader: 'style-loader'
+            }, {
+                loader: 'css-loader'
+            }]
+        }]
+    }
 };
 ```
 
@@ -299,159 +343,150 @@ Actually, Webpack inserts an internal style sheet into `index.html`.
 
 ```html
 <head>
-  <script type="text/javascript" src="bundle.js"></script>
-  <style type="text/css">
-    body {
-      background-color: blue;
-    }
-  </style>
+    <style type="text/css">
+        body {
+            background-color: blue;
+        }
+    </style>
 </head>
 ```
 
-## Demo05: Image loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo05))
+## Demo05: HTML Webpack Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo05))
 
-Webpack could also include images in JS files.
+This demo shows you how to load 3rd-party plugins.
 
-main.js
+[html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) could create `index.html` for you.
 
-```javascript
-var img1 = document.createElement("img");
-img1.src = require("./small.png");
-document.body.appendChild(img1);
-
-var img2 = document.createElement("img");
-img2.src = require("./big.png");
-document.body.appendChild(img2);
-```
-
-index.html
-
-```html
-<html>
-  <body>
-    <script type="text/javascript" src="bundle.js"></script>
-  </body>
-</html>
-```
-
-webpack.config.js
+`main.js`
 
 ```javascript
+document.write('<h1>Hello World</h1>');
+```
+
+`webpack.config.js`
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules:[
-      {
-        test: /\.(png|jpg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192
-            }
-          }
-        ]
-      }
-    ]
-  }
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    plugins: [
+        new HtmlWebpackPlugin()
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
-[url-loader](https://www.npmjs.com/package/url-loader) transforms image files into `<img>` tag. If the image size is smaller than 8192 bytes, it will be transformed into Data URL; otherwise, it will be transformed into normal URL.
-
-After launching the server, `small.png` and `big.png` have the following URLs.
-
-```html
-<img src="data:image/png;base64,iVBOR...uQmCC">
-<img src="4853ca667a2b8b8844eb2693ac1b2578.png">
-```
+Now you don't need to write `index.html` by hand and don't have to open browser by yourself. Webpack did all these things for you.
 
 ## Demo06: CSS Module ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo06))
 
 `css-loader?modules` (the query parameter modules) enables the [CSS Module](https://github.com/css-modules/css-modules) which gives a local scoped CSS to your JS module's CSS. You can switch it off with `:global(selector)` ([more info](https://css-modules.github.io/webpack-demo/)).
 
-index.html
+`index.html`
 
 ```html
 <html>
 <body>
-  <h1 class="h1">Hello World</h1>
-  <h2 class="h2">Hello Webpack</h2>
-  <div id="example"></div>
-  <script src="./bundle.js"></script>
+    <h1 class="h1">Hello World</h1>
+    <h2 class="h2">Hello Webpack</h2>
+    <div id="example"></div>
 </body>
 </html>
 ```
 
-app.css
+`app.css`
 
 ```css
 /* local scope */
 .h1 {
-  color:red;
+    color:red;
 }
 
 /* global scope */
 :global(.h2) {
-  color: blue;
+    color: blue;
 }
 ```
 
-main.jsx
+`main.jsx`
 
 ```javascript
-var React = require('react');
-var ReactDOM = require('react-dom');
-var style = require('./app.css');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import style from './app.css';
 
 ReactDOM.render(
-  <div>
-    <h1 className={style.h1}>Hello World</h1>
-    <h2 className="h2">Hello Webpack</h2>
-  </div>,
-  document.getElementById('example')
+    <div>
+        <h1 className={style.h1}>Hello World</h1>
+        <h2 className="h2">Hello Webpack</h2>
+    </div>,
+    document.querySelector('#example')
 );
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.jsx',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-             loader: 'css-loader',
-             options: {
-               modules: true
-             }
-          }
-        ]
-      }
-    ]
-  }
+    entry: './main.jsx',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.js[x]$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }, {
+            test: /\.css$/,
+            use: [{
+                loader: 'style-loader'
+            }, {
+                loader: 'css-loader',
+                options: {
+                    modules: true
+                }
+            }]
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
@@ -466,41 +501,53 @@ Visiting http://127.0.0.1:8080 , you'll find that only second `h1` is red, becau
 
 ## Demo07: UglifyJs Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo07))
 
-Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/) will minify output(`bundle.js`) JS codes.
+Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/) will minify output(`bundle.js`) JS codes. Basically, production mode already tells webpack to minify javascript, but you can also configure your production config, in webpack 4 it was moved from `plugins` to `optimization` section.
 
-main.js
+`main.js`
 
 ```javascript
-var longVariableName = 'Hello';
+let longVariableName = 'Hello';
 longVariableName += ' World';
-document.write('<h1>' + longVariableName + '</h1>');
+document.write(`<h1>${longVariableName}</h1>`);
 ```
 
-index.html
-
-```html
-<html>
-<body>
-  <script src="bundle.js"></script>
-</body>
-</html>
-```
-
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
-var webpack = require('webpack');
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  plugins: [
-    new UglifyJsPlugin()
-  ]
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    optimization: {
+        minimize: isProduction,
+
+        minimizer: [
+            new UglifyJsPlugin({
+                // ... your options here
+            })
+        ]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin()
+    ],
+
+    devServer: {
+        open: true
+    }
 };
+
 ```
 
 After launching the server, `main.js` will be minified into following.
@@ -509,38 +556,64 @@ After launching the server, `main.js` will be minified into following.
 var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 ```
 
-## Demo08: HTML Webpack Plugin and Open Browser Webpack Plugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
+## Demo08: Image Loader ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo08))
 
-This demo shows you how to load 3rd-party plugins.
+Webpack could also include images in JS files.
 
-[html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) could create `index.html` for you, and [open-browser-webpack-plugin](https://github.com/baldore/open-browser-webpack-plugin) could open a new browser tab when Webpack loads.
-
-main.js
+`main.js`
 
 ```javascript
-document.write('<h1>Hello World</h1>');
+import small from './small.png';
+import big from './big.png';
+
+const image1 = document.createElement('img');
+image1.src = small;
+
+const image2 = document.createElement('img');
+image2.src = big;
+
+[image1, image2].forEach(image => document.body.appendChild(image));
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Webpack-demos',
-      filename: 'index.html'
-    }),
-    new OpenBrowserPlugin({
-      url: 'http://localhost:8080'
-    })
-  ]
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.(png|jpg)$/,
+            use: [
+                'file-loader',
+                {
+                    loader: 'image-webpack-loader',
+                    options: {
+                        bypassOnDebug: true
+                    }
+                }
+            ]
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin()
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
@@ -551,59 +624,63 @@ $ cd demo08
 $ npm run dev
 ```
 
-Now you don't need to write `index.html` by hand and don't have to open browser by yourself. Webpack did all these things for you.
+[file-loader](https://github.com/webpack-contrib/file-loader) emits your image as file in the output directory and returns its URL as MD5 hash. Also it can be chained with [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader) that can compress your images.
 
 ## Demo09: Environment flags ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo09))
 
 You can enable some codes only in development environment with environment flags.
 
-main.js
+`main.js`
 
 ```javascript
-document.write('<h1>Hello World</h1>');
-
-if (__DEV__) {
-  document.write(new Date());
+if (isProduction) {
+    document.write('<h1>We are in production mode!</h1>');
+} else {
+    document.write('<h1>We are in development mode bro!</h1>');
 }
 ```
 
-index.html
-
-```html
-<html>
-<body>
-  <script src="bundle.js"></script>
-</body>
-</html>
-```
-
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
-var webpack = require('webpack');
-
-var devFlagPlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
-});
+const DefinePlugin = require('webpack').DefinePlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  plugins: [devFlagPlugin]
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    plugins: [
+        new HtmlWebpackPlugin(),
+
+        new DefinePlugin({
+            isProduction: JSON.stringify(isProduction)
+        })
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
-Now pass environment variable into webpack. Opening `demo09/package.json`, you should find `scripts` field as following.
+Now pass environment variable into webpack. Opening `demo09/package.json`, you should find `scripts` field as following. Here we don't specify anything, so `isProduction` environment variable is automatically set to `false`.
 
 ```javascript
 // package.json
 {
   // ...
-  "scripts": {
-    "dev": "cross-env DEBUG=true webpack-dev-server --open",
-  },
+    "scripts": {
+        "dev": "webpack-dev-server"
+    }
   // ...
 }
 ```
@@ -621,41 +698,51 @@ For big web apps, it’s not efficient to put all code into a single file. Webpa
 
 Webpack uses `require.ensure` to define a split point ([official document](http://webpack.github.io/docs/code-splitting.html)).
 
+`main.js`
+
 ```javascript
-// main.js
-require.ensure(['./a'], function (require) {
-  var content = require('./a');
-  document.open();
-  document.write('<h1>' + content + '</h1>');
-  document.close();
+require.ensure(['./a'], require => {
+    const content = require('./a');
+    document.open();
+    document.write(`<h1>${content.default}</h1>`);
+    document.close();
 });
 ```
 
 `require.ensure` tells Webpack that `./a.js` should be separated from `bundle.js` and built into a single chunk file.
 
+`a.js`
+
 ```javascript
-// a.js
-module.exports = 'Hello World';
+export default 'Hello World';
 ```
 
 Now Webpack takes care of the dependencies, output files and runtime stuff. You don't have to put any redundancy into your `index.html` and `webpack.config.js`.
 
-```html
-<html>
-  <body>
-    <script src="bundle.js"></script>
-  </body>
-</html>
-```
-
 webpack.config.js
 
 ```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.js',
-  output: {
-    filename: 'bundle.js'
-  }
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    plugins: [
+        new HtmlWebpackPlugin()
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
@@ -672,174 +759,208 @@ On the surface, you won't feel any differences. However, Webpack actually builds
 
 Another way of code splitting is using [bundle-loader](https://www.npmjs.com/package/bundle-loader).
 
-```javascript
-// main.js
+`main.js`
 
+```javascript
 // Now a.js is requested, it will be bundled into another file
-var load = require('bundle-loader!./a.js');
+import bundle from 'bundle-loader!./a';
 
 // To wait until a.js is available (and get the exports)
-//  you need to async wait for it.
-load(function(file) {
-  document.open();
-  document.write('<h1>' + file + '</h1>');
-  document.close();
+// you need to async wait for it.
+bundle(file => {
+    document.open();
+    document.write(`<h1>${file.default}</h1>`);
+    document.close();
 });
 ```
 
-`require('bundle-loader!./a.js')` tells Webpack to load `a.js` from another chunk.
+`import bundle from 'bundle-loader!./a'` tells Webpack to load `a.js` from another chunk.
 
 Now Webpack will build `main.js` into `bundle.js`, and `a.js` into `0.bundle.js`.
 
 ## Demo12: Common chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo12))
 
-When multi scripts have common chunks, you can extract the common part into a separate file with [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/), which is useful for browser caching and saving bandwidth.
+When multi scripts have common chunks, you can extract the common part into a separate file. [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) was deprecated when webpack 4 was out. But webpack team made a great improvement, because they added `optimization` section for config, that also allows to create separate chunks and chunk hash maps.
 
 ```javascript
 // main1.jsx
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 ReactDOM.render(
-  <h1>Hello World</h1>,
-  document.getElementById('a')
+    <h1>Hello World</h1>,
+    document.querySelector('#a')
 );
 
 // main2.jsx
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 ReactDOM.render(
-  <h2>Hello Webpack</h2>,
-  document.getElementById('b')
+    <h1>Hello Webpack</h1>,
+    document.querySelector('#b')
 );
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
-  <body>
+<body>
     <div id="a"></div>
     <div id="b"></div>
-    <script src="commons.js"></script>
-    <script src="bundle1.js"></script>
-    <script src="bundle2.js"></script>
-  </body>
+</body>
 </html>
 ```
 
-The above `commons.js` is the common chunk of `main1.jsx` and `main2.jsx`. As you can imagine, `commons.js` includes `react` and `react-dom`.
+Let's take a look that `main1.jsx` and `main2.jsx` have common dependendies, so we want those modules - `react` and `react-dom` chunk into separate file, often called `vendor.js`. As you can imagine, `vendor.js` includes `react` and `react-dom`.
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
-var webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: {
-    bundle1: './main1.jsx',
-    bundle2: './main2.jsx'
-  },
-  output: {
-    filename: '[name].js'
-  },
-  module: {
-    rules:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
+    entry: {
+        bundle1: './main1.jsx',
+        bundle2: './main2.jsx'
+    },
+
+    output: {
+        filename: '[name].js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.js[x]?$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+
+    optimization: {
+        runtimeChunk: true,
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                vendor: {
+                    name: 'vendor',
+                    chunks: 'initial'
+                }
+            }
         }
-      },
-    ]
-  },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "commons",
-      // (the commons chunk name)
+    },
 
-      filename: "commons.js",
-      // (the filename of the commons chunk)
-    })
-  ]
-}
-```
-
-## Demo13: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
-
-You can also extract the vendor libraries from a script into a separate file with CommonsChunkPlugin.
-
-main.js
-
-```javascript
-var $ = require('jquery');
-$('h1').text('Hello World');
-```
-
-index.html
-
-```html
-<html>
-  <body>
-    <h1></h1>
-    <script src="vendor.js"></script>
-    <script src="bundle.js"></script>
-  </body>
-</html>
-```
-
-webpack.config.js
-
-```javascript
-var webpack = require('webpack');
-
-module.exports = {
-  entry: {
-    app: './main.js',
-    vendor: ['jquery'],
-  },
-  output: {
-    filename: 'bundle.js'
-  },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.js'
-    })
-  ]
+    devServer: {
+        open: true
+    }
 };
 ```
 
-In above codes, `entry.vendor: ['jquery']` tells Webpack that `jquery` should be included in the common chunk `vendor.js`.
+We set `runtimeChunk` to `true` telling webpack to create runtime chunk, `splitChunks` finds dependencies which are shared between multiple modules, `'chunks': 'all'` selects chunks for determining shared modules, `cacheGroups` contains `vendor` property, that will be our chunk with dependencies.
 
-If you want a module available as a global variable in every module, such as making `$` and `jQuery` available in every module without writing `require("jquery")`. You should use `ProvidePlugin` ([Official doc](https://webpack.js.org/plugins/provide-plugin/)) which automatically loads modules instead of having to import or require them everywhere.
+## Demo13: Vendor chunk ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo13))
+
+Also another example extracting `jQuery` library into separate file.
+
+`main.js`
+
+```javascript
+import $ from 'jquery';
+$('h1').text('Hello from jquery');
+```
+
+`index.html`
+
+```html
+<html>
+<body>
+    <h1></h1>
+</body>
+</html>
+```
+
+`webpack.config.js`
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
+module.exports = {
+    entry: './main.js',
+
+    output: {
+        filename: '[name].js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+
+    optimization: {
+        runtimeChunk: true,
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                vendors: false,
+                vendor: {
+                    name: 'vendor',
+                    chunks: 'initial'
+                }
+            }
+        }
+    },
+
+    devServer: {
+        open: true
+    }
+};
+```
+
+If you want a module available as a global variable in every module, such as making `$` and `jQuery` available in every module without writing `import $ from 'jquery'`. You should use `ProvidePlugin` ([Official doc](https://webpack.js.org/plugins/provide-plugin/)) which automatically loads modules instead of having to import or require them everywhere.
 
 ```javascript
 // main.js
 $('h1').text('Hello World');
 
-
 // webpack.config.js
-var webpack = require('webpack');
+const ProvidePlugin = require('webpack').ProvidePlugin;
 
 module.exports = {
-  entry: {
-    app: './main.js'
-  },
-  output: {
-    filename: 'bundle.js'
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
-  ]
+    entry: './main.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    plugins: [
+        new ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
+    ]
 };
 ```
 
@@ -849,69 +970,83 @@ Of course, in this case, you should load `jquery.js` globally by yourself.
 
 If you want to use some global variables, and don't want to include them in the Webpack bundle, you can enable `externals` field in `webpack.config.js` ([official document](https://webpack.js.org/configuration/externals/)).
 
-For example, we have a `data.js`.
+For example, we have `underscore.js` library and we want to include it from a CDN.
 
-```javascript
-// data.js
-var data = 'Hello World';
-```
-
-index.html
+`index.html`
 
 ```html
 <html>
-  <body>
-    <script src="data.js"></script>
-    <script src="bundle.js"></script>
-  </body>
+<body>
+    <div id="#app"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+</body>
 </html>
 ```
 
-Attention, Webpack will only build `bundle.js`, but not `data.js`.
+Webpack will build our `bundle.js`, and `_` that references to the `underscore.js` is also exposed as a global variable. Try to type in console `window.hasOwnProperty('_') => true`.
 
-We can expose `data` as a global variable.
+`webpack.config.js`
 
 ```javascript
-// webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './main.jsx',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules:[
-      {
-        test: /\.js[x]?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
-        }
-      },
-    ]
-  },
-  externals: {
-    // require('data') is external and available
-    //  on the global var data
-    'data': 'data'
-  }
+    entry: {
+        main: './main.jsx',
+    },
+
+    output: {
+        filename: '[name].js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.js[x]?$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+
+    externals: {
+        underscore: '_'
+    },
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
-Now, you require `data` as a module variable in your script. but it actually is a global variable.
+Now, you can import `_` as a module variable in your script, but actually it's a global variable and `window`'s property.
+
+`main.jsx`
 
 ```javascript
-// main.jsx
-var data = require('data');
-var React = require('react');
-var ReactDOM = require('react-dom');
+import _ from 'underscore';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 ReactDOM.render(
-  <h1>{data}</h1>,
-  document.body
+    <h1>i betcha underscore is available here and its version is {_.VERSION}</h1>,
+    document.querySelector('#app')
 );
+
 ```
 
 You could also put `react` and `react-dom` into `externals`, which will greatly decreace the building time and building size of `bundle.js`.
@@ -944,116 +1079,137 @@ Let's imagine a little app with a dashboard, inbox, and calendar.
 +---------------------------------------------------------+
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  entry: './index.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
-        }
-      },
-    ]
-  }
+    entry: './index.js',
+
+    output: {
+        filename: 'bundle.js'
+    },
+
+    target: 'web',
+
+    mode: isProduction ? 'production' : 'development',
+
+    module: {
+        rules: [{
+            test: /\.js[x]?$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }, {
+            test: /\.css$/,
+            use: [{
+                loader: 'style-loader'
+            }, {
+                loader: 'css-loader'
+            }]
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        })
+    ],
+
+    devServer: {
+        open: true
+    }
 };
 ```
 
-index.js
+`index.html`
+
+```html
+<html>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+
+`index.js`
 
 ```javascript
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import './app.css';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <header>
-          <ul>
-            <li><Link to="/app">Dashboard</Link></li>
-            <li><Link to="/inbox">Inbox</Link></li>
-            <li><Link to="/calendar">Calendar</Link></li>
-          </ul>
-          Logged in as Jane
-        </header>
-        <main>
-          <Switch>
-            <Route exact path="/" component={Dashboard}/>
-            <Route path="/app" component={Dashboard}/>
-            <Route path="/inbox" component={Inbox}/>
-            <Route path="/calendar" component={Calendar}/>
-            <Route path="*" component={Dashboard}/>
-          </Switch>
-        </main>
-      </div>
-    );
-  }
+// ref https://stackoverflow.com/questions/46482433/reactjs-createclass-is-not-a-function
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <header>
+                    <ul>
+                        <li><Link to="/app">Dashboard</Link></li>
+                        <li><Link to="/inbox">Inbox</Link></li>
+                        <li><Link to="/calendar">Calendar</Link></li>
+                    </ul>
+                    Logged in as Jane
+                </header>
+                <main>
+                    <Switch>
+                        <Route exact path="/" component={Dashboard}/>
+                        <Route path="/app" component={Dashboard}/>
+                        <Route path="/inbox" component={Inbox}/>
+                        <Route path="/calendar" component={Calendar}/>
+                        <Route path="*" component={Dashboard}/>
+                    </Switch>
+                </main>
+            </div>
+        );
+    }
 };
 
-class Dashboard extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>Dashboard</p>
-      </div>
-    );
-  }
+class Dashboard extends Component {
+    render() {
+        return (
+            <div>
+                <p>Dashboard</p>
+            </div>
+        );
+    }
 };
 
-class Inbox extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>Inbox</p>
-      </div>
-    );
-  }
+class Inbox extends Component {
+    render() {
+        return (
+            <div>
+                <p>Inbox</p>
+            </div>
+        );
+    }
 };
 
-class Calendar extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>Calendar</p>
-      </div>
-    );
-  }
+class Calendar extends Component {
+    render() {
+        return (
+            <div>
+                <p>Calendar</p>
+            </div>
+        );
+    }
 };
 
+// ref https://segmentfault.com/q/1010000009616045/a-1020000009618728
 render((
-  <BrowserRouter>
-    <Route path="/" component={App} />
-  </BrowserRouter>
+    <BrowserRouter>
+        <Route path="/" component={App}/>
+    </BrowserRouter>
 ), document.querySelector('#app'));
-```
-
-index.html
-
-```html
-<html>
-  <body>
-    <div id="app"></div>
-    <script src="/bundle.js"></script>
-  </body>
-</htmL>
 ```
 
 Launch the server.
@@ -1062,6 +1218,189 @@ Launch the server.
 $ cd demo15
 $ npm run dev
 ```
+
+## Demo16: TypeScript ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo16))
+
+What about if you wanna use [TypeScript](http://typescriptlang.org) in your application? TypeScript has a [ts-loader](https://github.com/TypeStrong/ts-loader) for webpack.
+
+`main.ts`
+
+```typescript
+declare function require(modulePathOrName: string): any;
+
+document.addEventListener('DOMContentLoaded', (e: Event) => {
+    require('./app.css') as string;
+
+    document.body.insertAdjacentHTML('afterend', `
+        <h1>Hello world</h1>
+    `);
+});
+```
+
+`app.css`
+
+```css
+body {
+    background: linear-gradient(to right, cadetblue, cyan);
+}
+
+h1 {
+    color: bisque;
+}
+```
+
+`webpack.config.js`
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
+const modes = {
+    [true]: 'production',
+    [false]: 'development'
+};
+
+module.exports = {
+    context: __dirname,
+
+    entry: './main.ts',
+
+    output: {
+        filename: '[name].js'
+    },
+
+    target: 'web',
+
+    mode: modes[isProduction],
+
+    module: {
+        rules: [{
+            test: /\.ts$/,
+            loader: 'ts-loader'
+        }, {
+            test: /\.css$/,
+            use: [{
+                loader: 'style-loader'
+            }, {
+                loader: 'css-loader'
+            }]
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin()
+    ],
+
+    devServer: {
+        open: true
+    }
+};
+```
+
+Also, don't forget about configuration file for the typescript compiler.
+
+`tsconfig.json`
+
+```json
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "target": "es5",
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    }
+}
+```
+
+## Demo17: AggressiveSplittingPlugin ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo17))
+
+Let's take a look at one more plugin that is called `AggressiveSplittingPlugin`. It is well explained in the documentation and very easy to use.
+
+`index.html`
+
+```html
+<html>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+
+`app.jsx`
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+    <h1>Hello AggressiveSplittingPlugin</h1>,
+    document.querySelector('#app')
+);
+```
+
+`webpack.config.js`
+
+```javascript
+const AggressiveSplittingPlugin = require('webpack').optimize.AggressiveSplittingPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
+const modes = {
+    [true]: 'production',
+    [false]: 'development'
+};
+
+module.exports = {
+    entry: {
+        app: './app.jsx'
+    },
+
+    output: {
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name].[chunkhash].chunk.js'
+    },
+
+    target: 'web',
+
+    mode: modes[isProduction],
+
+    cache: true, // <= notice we added this
+
+    module: {
+        rules: [{
+            test: /\.js[x]?$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        }]
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        }),
+
+        new AggressiveSplittingPlugin({
+            minSize: 30000,
+            maxSize: 50000
+        })
+    ],
+
+    devServer: {
+        open: true
+    }
+};
+```
+
+We define `minSize` and `maxSize` in plugin options, 30000 bytes equal 0.03 megabytes. Basically, this plugin takes all your dependenies and `for-loop` them, starts with the biggest chunk, so for any chunk which isn't splitted yet, this plugin splits it and creates a new entry.
 
 ## Useful links
 

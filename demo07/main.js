@@ -1,3 +1,3 @@
-var longVariableName = 'Hello';
+let longVariableName = 'Hello';
 longVariableName += ' World';
-document.write('<h1>' + longVariableName + '</h1>');
+document.write(`<h1>${longVariableName}</h1>`);
