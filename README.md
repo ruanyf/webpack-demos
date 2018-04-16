@@ -1,3 +1,7 @@
+<h1 align="center">
+    <img src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/866/739608866_459647a5-afaa-4f81-bef5-6076c8cdf7d3.png?cb=1523910063">
+</h1>
+
 This repo is a collection of simple demos of Webpack.
 
 These demos are purposely written in a simple and clear style. You will find no difficulty in following them to learn the powerful tool.
@@ -120,7 +124,7 @@ For example, `main.js` is an entry file.
 document.write('<h1>Hello World</h1>');
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -132,8 +136,9 @@ index.html
 
 Webpack follows `webpack.config.js` to build `bundle.js`. Also, we should stop at 2 properties that are declared here - `target` and `mode`. We specify `target` as `web`, because we compile our code for usage in browser-like environment. There are also available targets as `node`, `electron`, etc. `mode` property tells webpack to enable production optimizations or development hints, you can choose one of three - `development`, `production`, `none`. Also, we check our `process.env` global variable, that is injected by Node at runtime, if it has a property `NODE_ENV` that equals to `production`.
 
+`webpack.config.js`
+
 ```javascript
-// webpack.config.js
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -168,7 +173,7 @@ document.write('<h1>Hello World</h1>');
 document.write('<h2>Hello Webpack</h2>');
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -179,7 +184,7 @@ index.html
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const isProduction = process.env.NODE_ENV === 'production';
@@ -219,7 +224,7 @@ ReactDOM.render(
 );
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -230,7 +235,7 @@ index.html
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const isProduction = process.env.NODE_ENV === 'production';
@@ -267,13 +272,13 @@ The above snippet uses `babel-loader` which needs Babel's preset plugins [babel-
 
 Webpack allows you to include CSS in JS file, then preprocessed CSS file with [CSS-loader](https://github.com/webpack-contrib/css-loader).
 
-main.js
+`main.js`
 
 ```javascript
 import './app.css';
 ```
 
-app.css
+`app.css`
 
 ```css
 body {
@@ -285,7 +290,7 @@ h1 {
 }
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -296,7 +301,7 @@ index.html
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const isProduction = process.env.NODE_ENV === 'production';
@@ -352,13 +357,13 @@ This demo shows you how to load 3rd-party plugins.
 
 [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) could create `index.html` for you.
 
-main.js
+`main.js`
 
 ```javascript
 document.write('<h1>Hello World</h1>');
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -391,7 +396,7 @@ Now you don't need to write `index.html` by hand and don't have to open browser 
 
 `css-loader?modules` (the query parameter modules) enables the [CSS Module](https://github.com/css-modules/css-modules) which gives a local scoped CSS to your JS module's CSS. You can switch it off with `:global(selector)` ([more info](https://css-modules.github.io/webpack-demo/)).
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -403,7 +408,7 @@ index.html
 </html>
 ```
 
-app.css
+`app.css`
 
 ```css
 /* local scope */
@@ -417,7 +422,7 @@ app.css
 }
 ```
 
-main.jsx
+`main.jsx`
 
 ```javascript
 import React from 'react';
@@ -433,7 +438,7 @@ ReactDOM.render(
 );
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -498,7 +503,7 @@ Visiting http://127.0.0.1:8080 , you'll find that only second `h1` is red, becau
 
 Webpack has a plugin system to expand its functions. For example, [UglifyJs Plugin](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/) will minify output(`bundle.js`) JS codes. Basically, production mode already tells webpack to minify javascript, but you can also configure your production config, in webpack 4 it was moved from `plugins` to `optimization` section.
 
-main.js
+`main.js`
 
 ```javascript
 let longVariableName = 'Hello';
@@ -506,7 +511,7 @@ longVariableName += ' World';
 document.write(`<h1>${longVariableName}</h1>`);
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -555,7 +560,7 @@ var o="Hello";o+=" World",document.write("<h1>"+o+"</h1>")
 
 Webpack could also include images in JS files.
 
-main.js
+`main.js`
 
 ```javascript
 import small from './small.png';
@@ -570,7 +575,7 @@ image2.src = big;
 [image1, image2].forEach(image => document.body.appendChild(image));
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -625,7 +630,7 @@ $ npm run dev
 
 You can enable some codes only in development environment with environment flags.
 
-main.js
+`main.js`
 
 ```javascript
 if (isProduction) {
@@ -635,7 +640,7 @@ if (isProduction) {
 }
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const DefinePlugin = require('webpack').DefinePlugin;
@@ -693,8 +698,9 @@ For big web apps, it’s not efficient to put all code into a single file. Webpa
 
 Webpack uses `require.ensure` to define a split point ([official document](http://webpack.github.io/docs/code-splitting.html)).
 
+`main.js`
+
 ```javascript
-// main.js
 require.ensure(['./a'], require => {
     const content = require('./a');
     document.open();
@@ -705,8 +711,9 @@ require.ensure(['./a'], require => {
 
 `require.ensure` tells Webpack that `./a.js` should be separated from `bundle.js` and built into a single chunk file.
 
+`a.js`
+
 ```javascript
-// a.js
 export default 'Hello World';
 ```
 
@@ -752,9 +759,9 @@ On the surface, you won't feel any differences. However, Webpack actually builds
 
 Another way of code splitting is using [bundle-loader](https://www.npmjs.com/package/bundle-loader).
 
-```javascript
-// main.js
+`main.js`
 
+```javascript
 // Now a.js is requested, it will be bundled into another file
 import bundle from 'bundle-loader!./a';
 
@@ -795,7 +802,7 @@ ReactDOM.render(
 );
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -808,7 +815,7 @@ index.html
 
 Let's take a look that `main1.jsx` and `main2.jsx` have common dependendies, so we want those modules - `react` and `react-dom` chunk into separate file, often called `vendor.js`. As you can imagine, `vendor.js` includes `react` and `react-dom`.
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -872,14 +879,14 @@ We set `runtimeChunk` to `true` telling webpack to create runtime chunk, `splitC
 
 Also another example extracting `jQuery` library into separate file.
 
-main.js
+`main.js`
 
 ```javascript
 import $ from 'jquery';
 $('h1').text('Hello from jquery');
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -889,7 +896,7 @@ index.html
 </html>
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -965,7 +972,7 @@ If you want to use some global variables, and don't want to include them in the 
 
 For example, we have `underscore.js` library and we want to include it from a CDN.
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -978,8 +985,9 @@ index.html
 
 Webpack will build our `bundle.js`, and `_` that references to the `underscore.js` is also exposed as a global variable. Try to type in console `window.hasOwnProperty('_') => true`.
 
+`webpack.config.js`
+
 ```javascript
-// webpack.config.js
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -1027,8 +1035,9 @@ module.exports = {
 
 Now, you can import `_` as a module variable in your script, but actually it's a global variable and `window`'s property.
 
+`main.jsx`
+
 ```javascript
-// main.jsx
 import _ from 'underscore';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -1070,7 +1079,7 @@ Let's imagine a little app with a dashboard, inbox, and calendar.
 +---------------------------------------------------------+
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -1119,7 +1128,7 @@ module.exports = {
 };
 ```
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -1129,7 +1138,7 @@ index.html
 </html>
 ```
 
-index.js
+`index.js`
 
 ```javascript
 import React, { Component } from 'react';
@@ -1214,7 +1223,7 @@ $ npm run dev
 
 What about if you wanna use [TypeScript](http://typescriptlang.org) in your application? TypeScript has a [ts-loader](https://github.com/TypeStrong/ts-loader) for webpack.
 
-main.ts
+`main.ts`
 
 ```typescript
 declare function require(modulePathOrName: string): any;
@@ -1228,7 +1237,7 @@ document.addEventListener('DOMContentLoaded', (e: Event) => {
 });
 ```
 
-app.css
+`app.css`
 
 ```css
 body {
@@ -1240,7 +1249,7 @@ h1 {
 }
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -1290,7 +1299,7 @@ module.exports = {
 
 Also, don't forget about configuration file for the typescript compiler.
 
-tsconfig.json
+`tsconfig.json`
 
 ```json
 {
@@ -1311,7 +1320,7 @@ tsconfig.json
 
 Let's take a look at one more plugin that is called `AggressiveSplittingPlugin`. It is well explained in the documentation and very easy to use.
 
-index.html
+`index.html`
 
 ```html
 <html>
@@ -1321,7 +1330,7 @@ index.html
 </html>
 ```
 
-app.jsx
+`app.jsx`
 
 ```javascript
 import React from 'react';
@@ -1333,7 +1342,7 @@ ReactDOM.render(
 );
 ```
 
-webpack.config.js
+`webpack.config.js`
 
 ```javascript
 const AggressiveSplittingPlugin = require('webpack').optimize.AggressiveSplittingPlugin;
