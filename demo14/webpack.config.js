@@ -1,8 +1,10 @@
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
   entry: './main.jsx',
   output: {
     filename: 'bundle.js'
   },
+ plugins: [new BundleAnalyzerPlugin()],
   module: {
     rules:[
       {
