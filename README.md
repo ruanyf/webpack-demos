@@ -30,7 +30,7 @@ $ cd demo01
 $ npm run dev
 ```
 
-If the above command doesn't open your browser automaticly, you have to visit http://127.0.0.1:8080 by yourself.
+If the above command doesn't open your browser automatically, you have to visit http://127.0.0.1:8080 by yourself.
 
 ## Foreword: What is Webpack
 
