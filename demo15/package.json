@@ -1,5 +1,5 @@
 {
-  "name": "webpack-demo16",
+  "name": "webpack-demo15",
   "version": "1.0.0",
   "scripts": {
     "dev": "webpack-dev-server --open --history-api-fallback",
