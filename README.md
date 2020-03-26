@@ -914,7 +914,7 @@ ReactDOM.render(
 );
 ```
 
-You could also put `react` and `react-dom` into `externals`, which will greatly decreace the building time and building size of `bundle.js`.
+You could also put `react` and `react-dom` into `externals`, which will greatly decrease the building time and building size of `bundle.js`.
 
 ## Demo15: React router ([source](https://github.com/ruanyf/webpack-demos/tree/master/demo15))
 
